@@ -1,18 +1,20 @@
+import { Entity, extend } from "playcanvas";
 import { Game } from "../game";
 
 
 
-export class box {
+export class box extends Entity {
     constructor() {
+        super()
         this.speed = 0.1; // Tốc độ di chuyển của hộp
         this.createMateria()
         this.box = new pc.Entity("cube");
         this.box.addComponent("render", {
             type: "box",
             material: this.material,
-
         });
         this.box.setPosition(0, 0.5, 0)
+        this.box.setLocalScale(0.5, 0.05, 0.5);
 
         Game.app.keyboard.on(pc.EVENT_KEYDOWN, this.onKeyDown, this);
         Game.app.keyboard.on(pc.EVENT_KEYUP, this.onKeyUp, this);
@@ -37,13 +39,13 @@ export class box {
 
         // Kiểm tra phím được nhấn và thiết lập hướng di chuyển tương ứng
         if (event.key === pc.KEY_UP || event.key === pc.KEY_W) {
-            this.up = true
+            this.moveUp = true
         } else if (event.key === pc.KEY_DOWN || event.key === pc.KEY_S) {
-            this.down = true
+            this.moveDown = true
         } else if (event.key === pc.KEY_LEFT || event.key === pc.KEY_A) {
-            this.left = true
+            this.moveLeft = true
         } else if (event.key === pc.KEY_RIGHT || event.key === pc.KEY_D) {
-            this.right = true
+            this.moveRight = true
         }
 
         // Kiểm tra nếu có hướng di chuyển, thì cập nhật vị trí mới cho đối tượng
@@ -51,27 +53,27 @@ export class box {
     }
     onKeyUp(event) {
         if (event.key === pc.KEY_UP || event.key === pc.KEY_W) {
-            this.up = false
+            this.moveUp = false
         } else if (event.key === pc.KEY_DOWN || event.key === pc.KEY_S) {
-            this.down = false
+            this.moveDown = false
         } else if (event.key === pc.KEY_LEFT || event.key === pc.KEY_A) {
-            this.left = false
+            this.moveLeft = false
         } else if (event.key === pc.KEY_RIGHT || event.key === pc.KEY_D) {
-            this.right = false
+            this.moveRight = false
         }
     }
     update(dt) {
         const direction = new pc.Vec3(); // Hướng di chuyển
-        if (this.up) {
+        if (this.moveUp) {
             direction.z = -1; // Di chuyển lên
         }
-        if (this.down) {
+        if (this.moveDown) {
             direction.z = 1; // Di chuyển xuống
         }
-        if (this.left) {
+        if (this.moveLeft) {
             direction.x = -1; // Di chuyển sang trái
         }
-        if (this.right) {
+        if (this.moveRight) {
             direction.x = 1; // Di chuyển sang phải
         }
         var rX = Math.cos(-Math.PI * 0.25);

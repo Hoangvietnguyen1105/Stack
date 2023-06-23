@@ -57,7 +57,7 @@ export class Game {
         this.app.root.addChild(this.light.light);
         // create an update 
         this.app.on("update", (dt) => {
-            this.box.box.rotate(10 * dt, 20 * dt, 30 * dt)
+            // this.box.box.rotate(10 * dt, 20 * dt, 30 * dt)
             this.box.update(dt)
 
         });
