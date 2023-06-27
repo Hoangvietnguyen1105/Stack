@@ -16,9 +16,7 @@ export class box extends Entity {
         this.box.setLocalScale(0.25, 0.025, 0.25);
         this.box.setLocalPosition(-(this.box.getLocalScale().x + this.box.getLocalScale().x * 0.20), 0.5, 0)
         //this.box.setPosition(0, 0.5, -(this.box.getLocalScale().x + this.box.getLocalScale().x * 0.20))
-
         this.addChild(this.box)
-
         this.moveLeft = false
         this.moveDown = true
         this.moveRight = true
@@ -94,6 +92,8 @@ export class box extends Entity {
                 }
             }
         });
+
+
 
     }
 

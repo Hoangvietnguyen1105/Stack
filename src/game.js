@@ -46,13 +46,25 @@ export class Game {
 
         material.update();
 
+
         this.box = new box()
         this.change = true
         this.app.root.addChild(this.box);
         // create camera entity
         this.camera = new Camera()
         this.app.root.addChild(this.camera.camera);
+        this.lct = 0
+        for (var i = 0; i < 20; i++) {
 
+            var box3 = new box()
+            box3.moveDown = false
+            box3.moveLeft = false
+            box3.moveUp = false
+            box3.moveRight = false
+            box3.setLocalPosition(0, this.lct, 0)
+            this.lct -= box3.box.getLocalScale().y
+            this.app.root.addChild(box3);
+        }
         this.light = new Light()
         this.light.light.setLocalEulerAngles(85.63, -58.9, -126.06)
         this.light.light.setLocalPosition(0.5530560612678528, 1.0613877773284912, 0.5824261903762817);
