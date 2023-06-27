@@ -6,15 +6,17 @@ import { Game } from "../game";
 export class box extends Entity {
     constructor() {
         super()
-        this.speed = 0.006; // Tốc độ di chuyển của hộp
+        this.speed = 0.3; // Tốc độ di chuyển của hộp
         this.createMateria()
         this.box = new pc.Entity("cube");
         this.box.addComponent("render", {
             type: "box",
             material: this.material,
         });
-        this.box.setPosition(0, 0.5, 0)
         this.box.setLocalScale(0.25, 0.025, 0.25);
+        this.box.setLocalPosition(-(this.box.getLocalScale().x + this.box.getLocalScale().x * 0.20), 0.5, 0)
+        //this.box.setPosition(0, 0.5, -(this.box.getLocalScale().x + this.box.getLocalScale().x * 0.20))
+
         this.addChild(this.box)
 
         this.moveLeft = false
@@ -47,7 +49,6 @@ export class box extends Entity {
         }
     }
     onMouseDown() {
-
         this.moveLeft = false
         this.moveDown = false
         this.moveRight = false
@@ -76,12 +77,12 @@ export class box extends Entity {
             direction.set(direction.x * rX - direction.z * rY, 0, direction.z * rX + direction.x * rY);
 
             if (direction.length() > 0) {
-                direction.normalize().scale(this.speed); // Chuẩn hóa và nhân với tốc độ
+                direction.normalize().scale(this.speed * dt); // Chuẩn hóa và nhân với tốc độ
                 this.box.translate(direction); // Di chuyển đối tượng
             }
             if (this.shouldChangeDirection) {
                 const position = this.box.getPosition();
-                const screenBounds = this.box.getLocalScale().x; // Giới hạn màn hình
+                const screenBounds = this.box.getLocalScale().x + this.box.getLocalScale().x * 0.25; // Giới hạn màn hình
 
                 if (position.x >= screenBounds || position.x <= -screenBounds || position.z >= screenBounds || position.z <= -screenBounds) {
                     this.moveLeft = !this.moveLeft;

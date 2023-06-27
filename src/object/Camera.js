@@ -28,13 +28,13 @@ export class Camera {
 
 
         // this.camera.script.create("orbitCameraInputMouse");
-        this.camera.script.create("orbitCameraInputTouch");
+        // this.camera.script.create("orbitCameraInputTouch");
 
 
     }
     update(dt) {
         // console.log(this.camera.getEulerAngles(), 'euler')
         // console.log(this.camera.getLocalPosition())
-        // console.log(this.camera.getPosition())
+        // // console.log(this.camera.getPosition())
     }
 }
