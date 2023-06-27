@@ -53,15 +53,15 @@ export class Game {
         // create camera entity
         this.camera = new Camera()
         this.app.root.addChild(this.camera.camera);
-        this.lct = 0
-        for (var i = 0; i < 20; i++) {
+        this.lct = 0 - this.box.box.getLocalScale().y
+        for (var i = 0; i < 30; i++) {
 
             var box3 = new box()
             box3.moveDown = false
             box3.moveLeft = false
             box3.moveUp = false
             box3.moveRight = false
-            box3.setLocalPosition(0, this.lct, 0)
+            box3.setLocalPosition(box3.box.getLocalScale().x + box3.box.getLocalScale().x * 0.20, this.lct, 0)
             this.lct -= box3.box.getLocalScale().y
             this.app.root.addChild(box3);
         }
