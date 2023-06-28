@@ -8,6 +8,7 @@ export class SceneManager {
         this.scenes = scenes;
         /** @type {Array<Scene>} */
         this.addtiveScenes = [];
+
     }
 
     /**

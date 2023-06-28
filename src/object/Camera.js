@@ -33,8 +33,6 @@ export class Camera {
 
     }
     update(dt) {
-        // console.log(this.camera.getEulerAngles(), 'euler')
-        // console.log(this.camera.getLocalPosition())
-        // // console.log(this.camera.getPosition())
+
     }
 }

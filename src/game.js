@@ -4,6 +4,10 @@ import { box } from "./object/box";
 import { Camera } from "./object/Camera"
 import { Light } from "./object/Light"
 import { loadObitCameraPlugin } from "../src/orbit-camera";
+import { SceneManager } from "./scene/sceneManager";
+import { PlayScene } from "./scenes/playScene";
+import { GameConstant } from "./gameConstant"
+import { StartScene } from "./scenes/startScene";
 export class Game {
 
 
@@ -35,69 +39,25 @@ export class Game {
             .catch((error) => {
                 console.error("Loading failed:", error);
             });
+        Game.app.mouse.on(pc.EVENT_MOUSEDOWN, this.onMouseDown, this);
 
 
     }
+    // static onMouseDown() {
+    //     console.log(this.app.root.children)
+
+    //     SceneManager.init([
+    //         new StartScene(),
+    //     ]);
+    //     SceneManager.loadScene(SceneManager.getScene('StartScene'));
+    //     console.log(this.app.root.children)
+    // }
     static load() {
-        const material = new pc.StandardMaterial();
-        material.useMetalness = true;
-        material.gloss = 1.3;
-        material.metalness = 0.4;
-
-        material.update();
-
-
-        this.box = new box()
-        this.change = true
-        this.app.root.addChild(this.box);
-        // create camera entity
-        this.camera = new Camera()
-        this.app.root.addChild(this.camera.camera);
-        this.lct = 0 - this.box.box.getLocalScale().y
-        for (var i = 0; i < 30; i++) {
-
-            var box3 = new box()
-            box3.moveDown = false
-            box3.moveLeft = false
-            box3.moveUp = false
-            box3.moveRight = false
-            box3.setLocalPosition(box3.box.getLocalScale().x + box3.box.getLocalScale().x * 0.20, this.lct, 0)
-            this.lct -= box3.box.getLocalScale().y
-            this.app.root.addChild(box3);
-        }
-        this.light = new Light()
-        this.light.light.setLocalEulerAngles(85.63, -58.9, -126.06)
-        this.light.light.setLocalPosition(0.5530560612678528, 1.0613877773284912, 0.5824261903762817);
-        this.app.root.addChild(this.light.light);
-
-        // create an update 
-        this.app.on("update", (dt) => {
-            // this.box.box.rotate(10 * dt, 20 * dt, 30 * dt)
-            if (this.camera.camera.getPosition().y < this.temp) {
-                this.camera.camera.setPosition(this.camera.camera.getPosition().x, this.camera.camera.getPosition().y + 0.2 * dt, this.camera.camera.getPosition().z)
-            }
-            this.camera.update(dt)
-
-        });
-        this.app.mouse.on(pc.EVENT_MOUSEDOWN, this.onMouseDown, this);
-
-        this.temp2 = this.box.box.getPosition().y
-
+        SceneManager.init([
+            new PlayScene(),
+        ]);
+        SceneManager.loadScene(SceneManager.getScene(GameConstant.SCENE_PLAY));
         this.app.start()
-    }
-    static onMouseDown() {
-        const box2 = new box()
-        this.temp = this.camera.camera.getPosition().y + box2.box.getLocalScale().y
-        this.temp2 += box2.box.getLocalScale().y
-        if (this.change === true) {
-            box2.box.setLocalPosition(0, 0.5, -(box2.box.getLocalScale().x + box2.box.getLocalScale().x * 0.20))
-            box2.moveLeft = true
-            box2.moveRight = false
-        }
-
-        box2.box.setPosition(box2.box.getPosition().x, this.temp2, box2.box.getPosition().z);
-        this.app.root.addChild(box2);
-        this.change = !this.change
     }
 
 
