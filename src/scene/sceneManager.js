@@ -16,18 +16,26 @@ export class SceneManager {
      */
     static loadScene(scene) {
         let oldScene = this.currentScene;
+        if (oldScene) {
+            Game.app.root.removeChild(oldScene);
+            oldScene.destroy();
+        }
         this.currentScene = scene;
 
         this.addtiveScenes.forEach((s) => s.destroy());
         Game.app.root.addChild(this.currentScene);
         this.currentScene.create();
 
-        if (oldScene) {
-            Game.app.root.removeChild(oldScene);
-            oldScene.destroy();
-        }
-    }
 
+        console.log(this.currentScene)
+        Game.app.on("update", (dt) => {
+            this.currentScene.update(dt)
+        })
+        Game.app.mouse.on(pc.EVENT_MOUSEDOWN, this.onMouseDown, this);
+    }
+    static onMouseDown() {
+        this.currentScene.onMouseDown()
+    }
     static loadSceneAddtive(scene) {
         this.addtiveScenes.push(scene);
         Game.app.root.addChild(scene);

@@ -15,14 +15,7 @@ export class StartScene extends Scene {
     }
 
     update(dt) {
-        Game.app.on("update", (dt) => {
-            if (this.camera.camera.getPosition().y < this.temp) {
-                this.camera.camera.setPosition(this.camera.camera.getPosition().x, Math.min(this.camera.camera.getPosition().y + 0.2 * dt, this.temp), this.camera.camera.getPosition().z)
-            }
-
-
-
-        });
+        console.log('startScene')
     }
 
     _initialize() {

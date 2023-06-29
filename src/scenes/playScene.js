@@ -4,6 +4,7 @@ import { Game } from "../game";
 import { Light } from "../object/Light.js";
 import { Camera } from "../object/Camera.js";
 import { box } from "../object/box.js";
+import { LogicPlayScene } from "../logic/logicPlay.js";
 export class PlayScene extends Scene {
     constructor() {
         super('PlayScene');
@@ -15,14 +16,9 @@ export class PlayScene extends Scene {
     }
 
     update(dt) {
-        Game.app.on("update", (dt) => {
-            if (this.camera.camera.getPosition().y < this.temp) {
-                this.camera.camera.setPosition(this.camera.camera.getPosition().x, Math.min(this.camera.camera.getPosition().y + 0.2 * dt, this.temp), this.camera.camera.getPosition().z)
-            }
-
-
-
-        });
+        if (this.camera.camera.getPosition().y < this.temp) {
+            this.camera.camera.setPosition(this.camera.camera.getPosition().x, Math.min(this.camera.camera.getPosition().y + 0.2 * dt, this.temp), this.camera.camera.getPosition().z)
+        }
     }
 
     _initialize() {
@@ -31,11 +27,17 @@ export class PlayScene extends Scene {
         this._initCamera();
         this.update()
         this.change = true
-        Game.app.mouse.on(pc.EVENT_MOUSEDOWN, this.onMouseDown, this);
         this.temp2 = this.box.box.getPosition().y
+        this.oldBox = this.box
     }
 
     onMouseDown() {
+        this.oldBox.moveLeft = false
+        this.oldBox.moveDown = false
+        this.oldBox.moveRight = false
+        this.oldBox.moveUp = false
+        this.oldBox.shouldChangeDirection = false;
+        //LogicPlayScene.splitting()
         const box2 = new box()
         this.temp = this.camera.camera.getLocalPosition().y + box2.box.getLocalScale().y
         this.temp2 += box2.box.getLocalScale().y
@@ -49,9 +51,10 @@ export class PlayScene extends Scene {
         var colorValue = parseInt(this.hexColor.substring(1), 16);
         colorValue -= this.colorStep;
         this.hexColor = '#' + colorValue.toString(16).padStart(6, '0');
-
+        const boxStay = new box()
+        boxStay.box.setPosition()
         this.addChild(box2);
-
+        this.oldBox = box2
         this.change = !this.change
     }
 

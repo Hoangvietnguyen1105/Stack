@@ -46,14 +46,14 @@ export class box extends Entity {
             this.moveRight = false
         }
     }
-    onMouseDown() {
-        this.moveLeft = false
-        this.moveDown = false
-        this.moveRight = false
-        this.moveUp = false
-        this.shouldChangeDirection = false;
+    // onMouseDown() {
+    //     this.moveLeft = false
+    //     this.moveDown = false
+    //     this.moveRight = false
+    //     this.moveUp = false
+    //     this.shouldChangeDirection = false;
 
-    }
+    // }
     update(dt) {
         Game.app.on("update", (dt) => {
             // this.box.box.rotate(10 * dt, 20 * dt, 30 * dt)
