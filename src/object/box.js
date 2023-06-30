@@ -80,14 +80,13 @@ export class box extends Entity {
             }
             if (this.shouldChangeDirection) {
                 const position = this.box.getPosition();
-                const screenBounds = this.box.getLocalScale().x + this.box.getLocalScale().x * 0.25; // Giới hạn màn hình
-
+                // const screenBounds = this.box.getLocalScale().x + this.box.getLocalScale().x * 0.25; // Giới hạn màn hình
+                const screenBounds = 0.3125
                 if (position.x >= screenBounds || position.x <= -screenBounds || position.z >= screenBounds || position.z <= -screenBounds) {
                     this.moveLeft = !this.moveLeft;
                     this.moveDown = !this.moveDown;
                     this.moveRight = !this.moveRight;
                     this.moveUp = !this.moveUp;
-
 
                 }
             }

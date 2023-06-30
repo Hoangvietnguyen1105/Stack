@@ -31,6 +31,7 @@ export class SceneManager {
         Game.app.on("update", (dt) => {
             this.currentScene.update(dt)
         })
+
         Game.app.mouse.on(pc.EVENT_MOUSEDOWN, this.onMouseDown, this);
     }
     static onMouseDown() {

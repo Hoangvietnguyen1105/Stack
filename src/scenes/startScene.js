@@ -3,7 +3,6 @@ import { Scene } from "../scene/scene.js";
 import { Game } from "../game";
 import { Light } from "../object/Light.js";
 import { Camera } from "../object/Camera.js";
-import { box } from "../object/box.js";
 export class StartScene extends Scene {
     constructor() {
         super('StartScene');
@@ -15,47 +14,21 @@ export class StartScene extends Scene {
     }
 
     update(dt) {
-        console.log('startScene')
     }
 
     _initialize() {
         this._initLight();
-        this._initBox();
+
         this._initCamera();
-        this.update()
-        this.change = true
-        Game.app.mouse.on(pc.EVENT_MOUSEDOWN, this.onMouseDown, this);
-        this.temp2 = this.box.box.getPosition().y
+
     }
 
     onMouseDown() {
-        const box2 = new box()
-        this.temp = this.camera.camera.getLocalPosition().y + box2.box.getLocalScale().y
-        this.temp2 += box2.box.getLocalScale().y
-        if (this.change === true) {
-            box2.box.setLocalPosition(0, 0.5, -(box2.box.getLocalScale().x + box2.box.getLocalScale().x * 0.20))
-            box2.moveLeft = true
-            box2.moveRight = false
-        }
-        box2.box.setPosition(box2.box.getPosition().x, this.temp2, box2.box.getPosition().z);
-        box2.material.diffuse = new pc.Color().fromString(this.hexColor);
-        var colorValue = parseInt(this.hexColor.substring(1), 16);
-        colorValue -= this.colorStep;
-        this.hexColor = '#' + colorValue.toString(16).padStart(6, '0');
-
-        this.addChild(box2);
-
-        this.change = !this.change
+        Game.load()
     }
 
     _initBox() {
-        this.box = new box();
-        this.change = true;
-        this.addChild(this.box);
 
-        this.lct = 0 - this.box.box.getLocalScale().y;
-        this.hexColor = '#e6e8f5';
-        this.colorStep = -300;
 
 
     }

@@ -43,21 +43,21 @@ export class Game {
 
 
     }
-    // static onMouseDown() {
-    //     console.log(this.app.root.children)
+    static replay() {
 
-    //     SceneManager.init([
-    //         new StartScene(),
-    //     ]);
-    //     SceneManager.loadScene(SceneManager.getScene('StartScene'));
-    //     console.log(this.app.root.children)
-    // }
+        SceneManager.init([
+            new StartScene(),
+        ]);
+        SceneManager.loadScene(SceneManager.getScene('StartScene'));
+        console.log('child----------------', this.app.root.children)
+    }
     static load() {
         SceneManager.init([
             new PlayScene(),
         ]);
         SceneManager.loadScene(SceneManager.getScene(GameConstant.SCENE_PLAY));
         this.app.start()
+
     }
 
 
