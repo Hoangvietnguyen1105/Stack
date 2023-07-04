@@ -7,7 +7,7 @@ export class SceneManager {
     static init(scenes) {
         this.scenes = scenes;
         /** @type {Array<Scene>} */
-        this.addtiveScenes = [];
+        // this.addtiveScenes = [];
 
     }
 
@@ -15,36 +15,31 @@ export class SceneManager {
      * @param {Scene} scene
      */
     static loadScene(scene) {
+        console.log('load')
         let oldScene = this.currentScene;
+
         if (oldScene) {
+            for (let i = oldScene.children.length - 1; i >= 0; i--) {
+                oldScene.children[i].destroy();
+            }
             Game.app.root.removeChild(oldScene);
             oldScene.destroy();
         }
         this.currentScene = scene;
 
-        this.addtiveScenes.forEach((s) => s.destroy());
+        // this.addtiveScenes.forEach((s) => s.destroy());
         Game.app.root.addChild(this.currentScene);
         this.currentScene.create();
-
-
-        console.log(this.currentScene)
-        Game.app.on("update", (dt) => {
-            this.currentScene.update(dt)
-        })
-
-        Game.app.mouse.on(pc.EVENT_MOUSEDOWN, this.onMouseDown, this);
     }
     static onMouseDown() {
-        this.currentScene.onMouseDown()
+        this.currentScene?.onMouseDown()
     }
-    static loadSceneAddtive(scene) {
-        this.addtiveScenes.push(scene);
-        Game.app.root.addChild(scene);
-    }
-
+    // static loadSceneAddtive(scene) {
+    //     this.addtiveScenes.push(scene);
+    //     Game.app.root.addChild(scene);
+    // }
     static update(dt) {
         this.currentScene?.update(dt);
-        this.addtiveScenes.forEach((scene) => scene.update(dt));
     }
 
     static resize() {

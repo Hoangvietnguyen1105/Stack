@@ -7,6 +7,7 @@ export class UIScreen extends Entity {
      * @param {string} key
      */
     constructor(key) {
+        console.log(key)
         super();
         this.key = key;
         this.addComponent("screen", {

@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kiennv-abi/ABI-GTA.git"
+    "url": "git+https://github.com/Hoangvietnguyen1105/Stack.git"
   },
   "devDependencies": {
     "clean-webpack-plugin": "^4.0.0",

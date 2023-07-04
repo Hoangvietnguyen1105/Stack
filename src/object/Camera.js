@@ -1,7 +1,8 @@
 import * as pc from 'playcanvas'
 
-export class Camera {
+export class Camera extends pc.Entity {
     constructor() {
+        super()
         this.camera = new pc.Entity("camera");
         this.camera.addComponent("camera", {
             clearColor: new pc.Color(0.5, 0.6, 0.9),
@@ -34,5 +35,8 @@ export class Camera {
     }
     update(dt) {
 
+    }
+    destroy() {
+        super.destroy()
     }
 }

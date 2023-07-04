@@ -67,4 +67,8 @@ export class UIManager extends Entity {
     resize() {
         this.screens.forEach((screen) => screen.enabled && screen.resize());
     }
+    destroy() {
+        super.destroy()
+    }
+
 }

@@ -16,6 +16,9 @@ export class PlayScene extends Scene {
     }
 
     update(dt) {
+        if (this.boxUpdate) {
+            this.boxUpdate.update(dt)
+        }
         if (this.camera.camera.getPosition().y < this.temp) {
             this.camera.camera.setPosition(this.camera.camera.getPosition().x, Math.min(this.camera.camera.getPosition().y + 0.2 * dt, this.temp), this.camera.camera.getPosition().z)
         }
@@ -24,16 +27,20 @@ export class PlayScene extends Scene {
     _initialize() {
         this._initLight();
         this._initBox();
+        this.boxUpdate = this.box
         this._initCamera();
         this.update()
         this.change = true
         this.temp2 = this.box.box.getPosition().y
         this.oldBox = this.box
+        this.boxLoop = this.box
+
     }
 
     onMouseDown() {
         console.log('abc')
         const box2 = new box()
+        this.boxUpdate = box2
         this.temp = this.camera.camera.getLocalPosition().y + box2.box.getLocalScale().y
         this.temp2 += box2.box.getLocalScale().y
         if (this.change === true) {
@@ -41,7 +48,7 @@ export class PlayScene extends Scene {
             box2.moveLeft = true
             box2.moveRight = false
         }
-        box2.box.setPosition(box2.box.getPosition().x, this.temp2, box2.box.getPosition().z);
+        box2.box.setLocalPosition(box2.box.getLocalPosition().x, this.temp2, box2.box.getLocalPosition().z);
         box2.material.diffuse = new pc.Color().fromString(this.hexColor);
         var colorValue = parseInt(this.hexColor.substring(1), 16);
         colorValue -= this.colorStep;
@@ -50,6 +57,10 @@ export class PlayScene extends Scene {
         // const boxStay = LogicPlayScene.splitting(this.oldBox, this.oldoldbox)
         var boxStay = new box()
         this.addChild(boxStay)
+        console.log(this.oldoldbox.box.getLocalPosition().x)
+        console.log(this.oldoldbox.box.getPosition().x)
+
+        //split box
         if (this.change == true) {
             if (this.oldBox.box.getPosition().x > this.oldoldbox.box.getPosition().x && this.oldBox.box.getPosition().x < this.oldoldbox.box.getPosition().x + this.oldoldbox.box.getLocalScale().x) {
                 boxStay.box.setLocalPosition(((this.oldoldbox.box.getPosition().x + this.oldoldbox.box.getLocalScale().x / 2) + (this.oldBox.box.getLocalPosition().x - this.oldBox.box.getLocalScale().x / 2)) / 2, this.temp2 - this.oldBox.box.getLocalScale().y, this.oldoldbox.box.getLocalPosition().z)
@@ -61,6 +72,7 @@ export class PlayScene extends Scene {
             }
             else {
                 Game.replay()
+                return
             }
         }
         else {
@@ -74,6 +86,7 @@ export class PlayScene extends Scene {
             }
             else {
                 Game.replay()
+                return
             }
         }
         if (this.change === true) {
@@ -85,22 +98,17 @@ export class PlayScene extends Scene {
             box2.box.setLocalScale(boxStay.box.getLocalScale())
             box2.box.setLocalPosition(-(boxStay.box.getLocalPosition().x + boxStay.box.getLocalPosition().x + (boxStay.box.getLocalScale().x * 0.2)), boxStay.box.getLocalPosition().y + boxStay.box.getLocalScale().y, boxStay.box.getLocalPosition().z)
         }
-        // box2.box.setLocalScale(boxStay.box.getLocalScale())
-        // box2.box.setLocalPosition(boxStay.box.getLocalPosition().x, boxStay.box.getLocalPosition().y + boxStay.box.getLocalScale().y, boxStay.box.getLocalPosition().z)
-        // console.log(this.oldoldbox.box.getLocalScale().x / 2)
+
         boxStay.moveLeft = false
         boxStay.moveDown = false
         boxStay.moveRight = false
         boxStay.moveUp = false
         boxStay.shouldChangeDirection = false;
-
-
-
-
-
+        boxStay.material.diffuse = new pc.Color().fromString(this.hexColor);
 
         this.removeChild(this.oldBox)
         this.addChild(box2);
+        this.boxLoop = box2
         this.oldoldbox = boxStay
         this.oldBox = box2
 
@@ -108,9 +116,12 @@ export class PlayScene extends Scene {
     }
 
     _initBox() {
+
         this.box = new box();
+        this.boxUpdate = this.box
         this.change = true;
         this.addChild(this.box);
+
         this.lct = 0 - this.box.box.getLocalScale().y;
         this.hexColor = '#e6e8f5';
         this.colorStep = -300;

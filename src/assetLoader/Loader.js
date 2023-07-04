@@ -7,13 +7,14 @@ export class Loader {
 
     static loadImages(app) {
         this.app = app
+        console.log('sdkfj')
         return new Promise((resolve, reject) => {
             const assets = [
                 new pc.Asset("image1", "texture", {
-                    url: '../../assets/sprites/spr_building_1.png',
+                    url: 'assets/sprites/spr_building_1.png',
                 }),
                 new pc.Asset("image2", "texture", {
-                    url: '../../assets/sprites/spr_building_2.png'
+                    url: 'assets/sprites/spr_building_2.png'
                 }),
             ];
 

@@ -6,7 +6,6 @@ export class LogicPlayScene {
      * @param {Box} oldBox - Đối tượng box thứ hai
      */
     static splitting(currentBox, oldBox) {
-        console.log(oldBox.box.getLocalScale())
         const boxStay = new box()
         boxStay.box.setLocalScale(oldBox.box.getLocalScale().x, oldBox.box.getLocalScale().y, oldBox.box.getLocalScale().z)
         boxStay.box.setLocalPosition(oldBox.box.getLocalPosition().x, oldBox.box.getLocalPosition().y, oldBox.box.getLocalPosition().z)

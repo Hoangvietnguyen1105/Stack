@@ -7,7 +7,7 @@ export const GameConstant = Object.freeze({
     PLATFORM_ANDROID: "android",
     PLATFORM_IOS: "ios",
 
-    SCENE_SELECT: "SelectScene",
+    START: "StartScene",
     SCENE_PLAY: "PlayScene",
 
     SCREEN_MENU: "SelectCarScreen",

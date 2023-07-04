@@ -1,5 +1,5 @@
 import { Application, ElementInput, Keyboard, Mouse, TouchDevice, ElementComponent, Texture, Entity, ImageElement, Vec2, Vec4 } from "playcanvas";
-import { Loader } from './assetLoader/Loader'
+import { Loader } from './assetLoader/Loader.js'
 import { box } from "./object/box";
 import { Camera } from "./object/Camera"
 import { Light } from "./object/Light"
@@ -39,25 +39,32 @@ export class Game {
             .catch((error) => {
                 console.error("Loading failed:", error);
             });
+
         Game.app.mouse.on(pc.EVENT_MOUSEDOWN, this.onMouseDown, this);
+        this.app.on("update", (dt) => this.update(dt));
 
 
     }
+    static onMouseDown() {
+        SceneManager.onMouseDown()
+    }
+    static update(dt) {
+        SceneManager.update(dt)
+    }
     static replay() {
-
         SceneManager.init([
             new StartScene(),
         ]);
         SceneManager.loadScene(SceneManager.getScene('StartScene'));
-        console.log('child----------------', this.app.root.children)
+        this.app.start()
+
     }
     static load() {
         SceneManager.init([
-            new PlayScene(),
+            new PlayScene(), new StartScene(),
         ]);
         SceneManager.loadScene(SceneManager.getScene(GameConstant.SCENE_PLAY));
         this.app.start()
-
     }
 
 
