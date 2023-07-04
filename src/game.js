@@ -12,6 +12,7 @@ export class Game {
 
 
     static init() {
+
         const canvas = document.createElement("canvas");
         canvas.width = 720;
         canvas.height = 1280;
@@ -36,7 +37,6 @@ export class Game {
         loadObitCameraPlugin();
         //load assset before start
         WasmModule.getInstance("Ammo", () => {
-
             Loader.loadImages(this.app)
                 .then((assets) => {
                     console.log("Loading complete");
@@ -69,11 +69,12 @@ export class Game {
 
     }
     static load() {
+        this.app.start()
+
         SceneManager.init([
             new PlayScene(), new StartScene(),
         ]);
         SceneManager.loadScene(SceneManager.getScene(GameConstant.SCENE_PLAY));
-        this.app.start()
     }
 
 

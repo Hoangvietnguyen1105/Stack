@@ -38,8 +38,8 @@ export class PlayScene extends Scene {
     }
 
     onMouseDown() {
-        console.log('abc')
         const box2 = new Box()
+
         this.boxUpdate = box2
         this.temp = this.camera.camera.getLocalPosition().y + box2.box.getLocalScale().y
         this.temp2 += box2.box.getLocalScale().y
@@ -57,8 +57,7 @@ export class PlayScene extends Scene {
         // const boxStay = LogicPlayScene.splitting(this.oldBox, this.oldoldbox)
         var boxStay = new Box()
         this.addChild(boxStay)
-        console.log(this.oldoldbox.box.getLocalPosition().x)
-        console.log(this.oldoldbox.box.getPosition().x)
+
 
         //split box
         if (this.change == true) {

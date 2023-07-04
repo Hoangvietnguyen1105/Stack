@@ -18,14 +18,14 @@ export class Box extends Entity {
         //this.box.setPosition(0, 0.5, -(this.box.getLocalScale().x + this.box.getLocalScale().x * 0.20))
         this.addChild(this.box)
 
-        this.addComponent("rigidbody", {
-            mass: 3000,
-            type: "dynamic",
-        });
+        // this.addComponent("rigidbody", {
+        //     mass: 3000,
+        //     type: "dynamic",
+        // });
 
-        this.addComponent("collision", {
-            type: "compound",
-        });
+        // this.addComponent("collision", {
+        //     type: "box",
+        // });
 
 
         this.moveLeft = false
@@ -57,14 +57,7 @@ export class Box extends Entity {
             this.moveRight = false
         }
     }
-    // onMouseDown() {
-    //     this.moveLeft = false
-    //     this.moveDown = false
-    //     this.moveRight = false
-    //     this.moveUp = false
-    //     this.shouldChangeDirection = false;
 
-    // }
     update(dt) {
         if (!dt) {
             return
