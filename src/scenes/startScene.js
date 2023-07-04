@@ -2,7 +2,7 @@ import { Scene } from "../scene/scene.js";
 import { Game } from "../game";
 import { Light } from "../object/Light.js";
 import { Camera } from "../object/Camera.js";
-import { box } from "../object/box.js";
+import { Box } from "../object/box.js";
 
 export class StartScene extends Scene {
     constructor() {
@@ -33,7 +33,7 @@ export class StartScene extends Scene {
     }
 
     _initBox() {
-        this.box = new box()
+        this.box = new Box()
         console.log("entity", this.box.getPosition())
         console.log(this.box.box.getLocalPosition())
         this.addChild(this.box)

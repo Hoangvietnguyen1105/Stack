@@ -1,6 +1,6 @@
-import { Application, ElementInput, Keyboard, Mouse, TouchDevice, ElementComponent, Texture, Entity, ImageElement, Vec2, Vec4 } from "playcanvas";
+import { Application, ElementInput, Keyboard, Mouse, TouchDevice, FILLMODE_FILL_WINDOW, RESOLUTION_AUTO, WasmModule, EVENT_KEYDOWN, KEY_R } from "playcanvas";
 import { Loader } from './assetLoader/Loader.js'
-import { box } from "./object/box";
+import { Box } from "./object/box";
 import { Camera } from "./object/Camera"
 import { Light } from "./object/Light"
 import { loadObitCameraPlugin } from "../src/orbit-camera";
@@ -28,17 +28,26 @@ export class Game {
         this.app.setCanvasFillMode(pc.FILLMODE_FILL_WINDOW);
         this.app.setCanvasResolution(pc.RESOLUTION_AUTO);
         this.app.graphicsDevice.maxPixelRatio = window.devicePixelRatio;
+        WasmModule.setConfig("Ammo", {
+            glueUrl: "assets/libs/ammo.wasm.js",
+            wasmUrl: "assets/libs/ammo.wasm.wasm",
+            fallbackUrl: "assets/libs/ammo.js",
+        });
         loadObitCameraPlugin();
         //load assset before start
-        Loader.loadImages(this.app)
-            .then((assets) => {
-                console.log("Loading complete");
-                // Tiếp tục công việc sau khi tải hình ảnh thành công
-                this.load();
-            })
-            .catch((error) => {
-                console.error("Loading failed:", error);
-            });
+        WasmModule.getInstance("Ammo", () => {
+
+            Loader.loadImages(this.app)
+                .then((assets) => {
+                    console.log("Loading complete");
+                    // Tiếp tục công việc sau khi tải hình ảnh thành công
+                    this.load();
+                })
+                .catch((error) => {
+                    console.error("Loading failed:", error);
+                });
+        });
+        // this.app.systems.rigidbody.gravity.set(0, -9.81, 0);
 
         Game.app.mouse.on(pc.EVENT_MOUSEDOWN, this.onMouseDown, this);
         this.app.on("update", (dt) => this.update(dt));

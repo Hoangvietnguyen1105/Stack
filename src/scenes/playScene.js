@@ -3,7 +3,7 @@ import { Scene } from "../scene/scene.js";
 import { Game } from "../game";
 import { Light } from "../object/Light.js";
 import { Camera } from "../object/Camera.js";
-import { box } from "../object/box.js";
+import { Box } from "../object/box.js";
 import { LogicPlayScene } from "../logic/logicPlay.js";
 export class PlayScene extends Scene {
     constructor() {
@@ -39,7 +39,7 @@ export class PlayScene extends Scene {
 
     onMouseDown() {
         console.log('abc')
-        const box2 = new box()
+        const box2 = new Box()
         this.boxUpdate = box2
         this.temp = this.camera.camera.getLocalPosition().y + box2.box.getLocalScale().y
         this.temp2 += box2.box.getLocalScale().y
@@ -55,7 +55,7 @@ export class PlayScene extends Scene {
         this.hexColor = '#' + colorValue.toString(16).padStart(6, '0');
 
         // const boxStay = LogicPlayScene.splitting(this.oldBox, this.oldoldbox)
-        var boxStay = new box()
+        var boxStay = new Box()
         this.addChild(boxStay)
         console.log(this.oldoldbox.box.getLocalPosition().x)
         console.log(this.oldoldbox.box.getPosition().x)
@@ -117,7 +117,7 @@ export class PlayScene extends Scene {
 
     _initBox() {
 
-        this.box = new box();
+        this.box = new Box();
         this.boxUpdate = this.box
         this.change = true;
         this.addChild(this.box);
@@ -127,7 +127,7 @@ export class PlayScene extends Scene {
         this.colorStep = -300;
 
         for (var i = 0; i < 30; i++) {
-            var box3 = new box();
+            var box3 = new Box();
             this.addChild(box3);
             box3.material.diffuse = new pc.Color().fromString(this.hexColor);
 

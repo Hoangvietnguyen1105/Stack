@@ -1,4 +1,4 @@
-import { box } from "../object/box";
+import { Box } from "../object/box";
 export class LogicPlayScene {
     /**
      * 
@@ -6,7 +6,7 @@ export class LogicPlayScene {
      * @param {Box} oldBox - Đối tượng box thứ hai
      */
     static splitting(currentBox, oldBox) {
-        const boxStay = new box()
+        const boxStay = new Box()
         boxStay.box.setLocalScale(oldBox.box.getLocalScale().x, oldBox.box.getLocalScale().y, oldBox.box.getLocalScale().z)
         boxStay.box.setLocalPosition(oldBox.box.getLocalPosition().x, oldBox.box.getLocalPosition().y, oldBox.box.getLocalPosition().z)
 

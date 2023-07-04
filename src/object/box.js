@@ -3,7 +3,7 @@ import { Game } from "../game";
 
 
 
-export class box extends Entity {
+export class Box extends Entity {
     constructor() {
         super()
         this.speed = 0.3; // Tốc độ di chuyển của hộp
@@ -17,6 +17,17 @@ export class box extends Entity {
         this.box.setLocalPosition(-(this.box.getLocalScale().x + this.box.getLocalScale().x * 0.20), 0.5, 0)
         //this.box.setPosition(0, 0.5, -(this.box.getLocalScale().x + this.box.getLocalScale().x * 0.20))
         this.addChild(this.box)
+
+        this.addComponent("rigidbody", {
+            mass: 3000,
+            type: "dynamic",
+        });
+
+        this.addComponent("collision", {
+            type: "compound",
+        });
+
+
         this.moveLeft = false
         this.moveDown = true
         this.moveRight = true
