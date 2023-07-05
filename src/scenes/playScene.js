@@ -16,6 +16,7 @@ export class PlayScene extends Scene {
     }
 
     update(dt) {
+
         if (this.boxUpdate) {
             this.boxUpdate.update(dt)
         }
@@ -104,6 +105,9 @@ export class PlayScene extends Scene {
                 return
             }
         }
+
+
+
         if (this.change === true) {
             box2.box.setLocalScale(boxStay.box.getLocalScale())
             box2.box.setLocalPosition(boxStay.box.getLocalPosition().x, boxStay.box.getLocalPosition().y + boxStay.box.getLocalScale().y, -(boxStay.box.getLocalPosition().z + boxStay.box.getLocalPosition().z + (boxStay.box.getLocalScale().z * 0.2)))
@@ -122,15 +126,29 @@ export class PlayScene extends Scene {
         boxStay.material.diffuse = new pc.Color().fromString(this.hexColor);
 
         this.removeChild(this.oldBox)
+
         this.addChild(box2);
-        // boxFall.removeComponent("rigidbody");
+        boxFall.box.addComponent("rigidbody", {
+            type: "dynamic",
+            mass: 50,
+            restitution: 0.5,
+        });
 
-        // boxFall.addComponent("rigidbody", {
-        //     type: "dynamic",
-        //     mass: 50,
-        //     restitution: 0.5,
-        // });
+        boxFall.box.addComponent("collision", {
+            type: "box",
+            halfExtents: new pc.Vec3(boxFall.box.getLocalScale().x / 2, boxFall.box.getLocalScale().y / 2, boxFall.box.getLocalScale().z / 2), // Kích thước của vùng va chạm thu nhỏ
+        });
+        boxStay.box.addComponent("rigidbody", {
+            type: "static",
+            mass: 50,
+            restitution: 0.5,
+        });
 
+        boxStay.box.addComponent("collision", {
+            type: "box",
+            halfExtents: new pc.Vec3(boxStay.box.getLocalScale().x / 2, boxStay.box.getLocalScale().y / 2, boxStay.box.getLocalScale().z / 2), // Kích thước của vùng va chạm thu nhỏ
+        });
+        this.boxTest = boxFall
         this.addChild(boxFall)
         this.boxLoop = box2
         this.oldoldbox = boxStay
@@ -145,6 +163,16 @@ export class PlayScene extends Scene {
         this.boxUpdate = this.box
         this.change = true;
         this.addChild(this.box);
+        // this.box.box.addComponent("rigidbody", {
+        //     type: "static",
+        //     mass: 50,
+        //     restitution: 0.5,
+        // });
+
+        // this.box.box.addComponent("collision", {
+        //     type: "box",
+        //     halfExtents: new pc.Vec3(this.box.box.getLocalScale().x, this.box.getLocalScale().y, this.box.box.getLocalScale().z), // Kích thước của vùng va chạm thu nhỏ
+        // });
 
         this.lct = 0 - this.box.box.getLocalScale().y;
         this.hexColor = '#e6e8f5';
@@ -169,6 +197,16 @@ export class PlayScene extends Scene {
             colorValue -= this.colorStep;
             this.hexColor = '#' + colorValue.toString(16).padStart(6, '0');
             this.oldoldbox = box3
+            box3.box.addComponent("rigidbody", {
+                type: "static",
+                mass: 50,
+                restitution: 0.5,
+            });
+
+            box3.box.addComponent("collision", {
+                type: "box",
+                halfExtents: new pc.Vec3(box3.box.getLocalScale().x / 2, box3.box.getLocalScale().y / 2, box3.box.getLocalScale().z / 2), // Kích thước của vùng va chạm thu nhỏ
+            });
         }
     }
     _initCamera() {

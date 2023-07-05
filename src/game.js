@@ -47,7 +47,7 @@ export class Game {
                     console.error("Loading failed:", error);
                 });
         });
-        // this.app.systems.rigidbody.gravity.set(0, -9.81, 0);
+        this.app.systems.rigidbody.gravity.set(0, -1.5, 0);
 
         Game.app.mouse.on(pc.EVENT_MOUSEDOWN, this.onMouseDown, this);
         this.app.on("update", (dt) => this.update(dt));
@@ -61,11 +61,12 @@ export class Game {
         SceneManager.update(dt)
     }
     static replay() {
+        this.app.start()
+
         SceneManager.init([
             new StartScene(),
         ]);
         SceneManager.loadScene(SceneManager.getScene('StartScene'));
-        this.app.start()
 
     }
     static load() {

@@ -34,9 +34,11 @@ export class StartScene extends Scene {
 
     _initBox() {
         this.box = new Box()
-        console.log("entity", this.box.getPosition())
-        console.log(this.box.box.getLocalPosition())
+        this.box2 = new Box()
+        this.box2.setLocalPosition(this.box.getLocalPosition().x, this.box.getLocalPosition().y + this.box.box.getLocalScale().y, this.box.getLocalPosition().z)
+        console.log(this.box.getLocalPosition().y + this.box.getLocalScale().y)
         this.addChild(this.box)
+        this.addChild(this.box2)
         // Khởi tạo và thêm các đối tượng box vào scene
     }
 
