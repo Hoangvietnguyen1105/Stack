@@ -39,7 +39,10 @@ export class PlayScene extends Scene {
 
     onMouseDown() {
         const box2 = new Box()
-
+        // box2.addComponent("rigidbody", {
+        //     mass: 3000,
+        //     type: "dynamic",
+        // });
         this.boxUpdate = box2
         this.temp = this.camera.camera.getLocalPosition().y + box2.box.getLocalScale().y
         this.temp2 += box2.box.getLocalScale().y
@@ -56,6 +59,7 @@ export class PlayScene extends Scene {
 
         // const boxStay = LogicPlayScene.splitting(this.oldBox, this.oldoldbox)
         var boxStay = new Box()
+        var boxFall = new Box()
         this.addChild(boxStay)
 
 
@@ -64,10 +68,16 @@ export class PlayScene extends Scene {
             if (this.oldBox.box.getPosition().x > this.oldoldbox.box.getPosition().x && this.oldBox.box.getPosition().x < this.oldoldbox.box.getPosition().x + this.oldoldbox.box.getLocalScale().x) {
                 boxStay.box.setLocalPosition(((this.oldoldbox.box.getPosition().x + this.oldoldbox.box.getLocalScale().x / 2) + (this.oldBox.box.getLocalPosition().x - this.oldBox.box.getLocalScale().x / 2)) / 2, this.temp2 - this.oldBox.box.getLocalScale().y, this.oldoldbox.box.getLocalPosition().z)
                 boxStay.box.setLocalScale((this.oldoldbox.box.getPosition().x + this.oldoldbox.box.getLocalScale().x / 2) - (this.oldBox.box.getLocalPosition().x - this.oldBox.box.getLocalScale().x / 2), this.oldoldbox.box.getLocalScale().y, this.oldoldbox.box.getLocalScale().z)
+                boxFall.box.setLocalPosition(((this.oldBox.box.getPosition().x + this.oldBox.box.getLocalScale().x / 2) + (this.oldoldbox.box.getPosition().x + this.oldoldbox.box.getLocalScale().x / 2)) / 2, this.temp2 - this.oldBox.box.getLocalScale().y, this.oldoldbox.box.getLocalPosition().z)
+                boxFall.box.setLocalScale(((this.oldBox.box.getPosition().x + this.oldBox.box.getLocalScale().x / 2) - (this.oldoldbox.box.getPosition().x + this.oldoldbox.box.getLocalScale().x / 2)), this.oldoldbox.box.getLocalScale().y, this.oldoldbox.box.getLocalScale().z)
+
             }
             else if (this.oldBox.box.getPosition().x < this.oldoldbox.box.getPosition().x && this.oldBox.box.getPosition().x > this.oldoldbox.box.getPosition().x - this.oldoldbox.box.getLocalScale().x) {
                 boxStay.box.setLocalPosition(((this.oldBox.box.getLocalPosition().x + this.oldBox.box.getLocalScale().x / 2) + (this.oldoldbox.box.getPosition().x - this.oldoldbox.box.getLocalScale().x / 2)) / 2, this.temp2 - this.oldBox.box.getLocalScale().y, this.oldoldbox.box.getLocalPosition().z)
                 boxStay.box.setLocalScale((this.oldBox.box.getLocalPosition().x + this.oldBox.box.getLocalScale().x / 2) - (this.oldoldbox.box.getPosition().x - this.oldoldbox.box.getLocalScale().x / 2), this.oldoldbox.box.getLocalScale().y, this.oldoldbox.box.getLocalScale().z)
+                boxFall.box.setLocalPosition(((this.oldBox.box.getPosition().x - this.oldBox.box.getLocalScale().x / 2) + (this.oldoldbox.box.getPosition().x - this.oldoldbox.box.getLocalScale().x / 2)) / 2, this.temp2 - this.oldBox.box.getLocalScale().y, this.oldoldbox.box.getLocalPosition().z)
+                boxFall.box.setLocalScale(((this.oldBox.box.getPosition().x - this.oldBox.box.getLocalScale().x / 2) - (this.oldoldbox.box.getPosition().x - this.oldoldbox.box.getLocalScale().x / 2)), this.oldoldbox.box.getLocalScale().y, this.oldoldbox.box.getLocalScale().z)
+
             }
             else {
                 Game.replay()
@@ -78,10 +88,16 @@ export class PlayScene extends Scene {
             if (this.oldBox.box.getPosition().z > this.oldoldbox.box.getPosition().z && this.oldBox.box.getPosition().z < this.oldoldbox.box.getPosition().z + this.oldoldbox.box.getLocalScale().z) {
                 boxStay.box.setLocalPosition(this.oldoldbox.box.getLocalPosition().x, this.temp2 - this.oldBox.box.getLocalScale().y, ((this.oldoldbox.box.getPosition().z + this.oldoldbox.box.getLocalScale().z / 2) + (this.oldBox.box.getLocalPosition().z - this.oldBox.box.getLocalScale().z / 2)) / 2)
                 boxStay.box.setLocalScale(this.oldoldbox.box.getLocalScale().x, this.oldoldbox.box.getLocalScale().y, (this.oldoldbox.box.getPosition().z + this.oldoldbox.box.getLocalScale().z / 2) - (this.oldBox.box.getLocalPosition().z - this.oldBox.box.getLocalScale().z / 2))
+                boxFall.box.setLocalPosition(this.oldoldbox.box.getLocalPosition().x, this.temp2 - this.oldBox.box.getLocalScale().y, ((this.oldBox.box.getPosition().z + this.oldBox.box.getLocalScale().z / 2) + (this.oldoldbox.box.getPosition().z + this.oldoldbox.box.getLocalScale().z / 2)) / 2)
+                boxFall.box.setLocalScale(this.oldoldbox.box.getLocalScale().x, this.oldoldbox.box.getLocalScale().y, ((this.oldBox.box.getPosition().z + this.oldBox.box.getLocalScale().z / 2) - (this.oldoldbox.box.getPosition().z + this.oldoldbox.box.getLocalScale().z / 2)))
+
             }
             else if (this.oldBox.box.getPosition().z < this.oldoldbox.box.getPosition().z && this.oldBox.box.getPosition().z > this.oldoldbox.box.getPosition().z - this.oldoldbox.box.getLocalScale().z) {
                 boxStay.box.setLocalPosition(this.oldoldbox.box.getLocalPosition().x, this.temp2 - this.oldBox.box.getLocalScale().y, ((this.oldBox.box.getLocalPosition().z + this.oldBox.box.getLocalScale().z / 2) + (this.oldoldbox.box.getPosition().z - this.oldoldbox.box.getLocalScale().z / 2)) / 2)
                 boxStay.box.setLocalScale(this.oldoldbox.box.getLocalScale().x, this.oldoldbox.box.getLocalScale().y, (this.oldBox.box.getLocalPosition().z + this.oldBox.box.getLocalScale().z / 2) - (this.oldoldbox.box.getPosition().z - this.oldoldbox.box.getLocalScale().z / 2))
+                boxFall.box.setLocalPosition(this.oldoldbox.box.getLocalPosition().x, this.temp2 - this.oldBox.box.getLocalScale().y, ((this.oldBox.box.getPosition().z - this.oldBox.box.getLocalScale().z / 2) + (this.oldoldbox.box.getPosition().z - this.oldoldbox.box.getLocalScale().z / 2)) / 2)
+                boxFall.box.setLocalScale(this.oldoldbox.box.getLocalScale().x, this.oldoldbox.box.getLocalScale().y, ((this.oldBox.box.getPosition().z - this.oldBox.box.getLocalScale().z / 2) - (this.oldoldbox.box.getPosition().z - this.oldoldbox.box.getLocalScale().z / 2)))
+
             }
             else {
                 Game.replay()
@@ -107,6 +123,15 @@ export class PlayScene extends Scene {
 
         this.removeChild(this.oldBox)
         this.addChild(box2);
+        // boxFall.removeComponent("rigidbody");
+
+        // boxFall.addComponent("rigidbody", {
+        //     type: "dynamic",
+        //     mass: 50,
+        //     restitution: 0.5,
+        // });
+
+        this.addChild(boxFall)
         this.boxLoop = box2
         this.oldoldbox = boxStay
         this.oldBox = box2
@@ -128,6 +153,7 @@ export class PlayScene extends Scene {
         for (var i = 0; i < 30; i++) {
             var box3 = new Box();
             this.addChild(box3);
+
             box3.material.diffuse = new pc.Color().fromString(this.hexColor);
 
             box3.moveDown = false;

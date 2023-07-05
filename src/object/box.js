@@ -18,14 +18,15 @@ export class Box extends Entity {
         //this.box.setPosition(0, 0.5, -(this.box.getLocalScale().x + this.box.getLocalScale().x * 0.20))
         this.addChild(this.box)
 
-        // this.addComponent("rigidbody", {
-        //     mass: 3000,
-        //     type: "dynamic",
-        // });
+        this.addComponent("rigidbody", {
+            type: "static",
+            mass: 50,
+            restitution: 0.5,
+        });
 
-        // this.addComponent("collision", {
-        //     type: "box",
-        // });
+        this.addComponent("collision", {
+            type: "box",
+        });
 
 
         this.moveLeft = false
@@ -45,18 +46,19 @@ export class Box extends Entity {
         this.material.metalness = 0.4;
         this.material.update();
     }
+    // onMouseDown() {
+    //     this.removeComponent("rigidbody");
 
-    onKeyUp(event) {
-        if (event.key === pc.KEY_UP || event.key === pc.KEY_W) {
-            this.moveUp = false
-        } else if (event.key === pc.KEY_DOWN || event.key === pc.KEY_S) {
-            this.moveDown = false
-        } else if (event.key === pc.KEY_LEFT || event.key === pc.KEY_A) {
-            this.moveLeft = false
-        } else if (event.key === pc.KEY_RIGHT || event.key === pc.KEY_D) {
-            this.moveRight = false
-        }
-    }
+    //     this.addComponent("rigidbody", {
+    //         mass: 3000,
+    //         type: "dynamic",
+    //     });
+    //     
+
+    // }
+
+
+
 
     update(dt) {
         if (!dt) {
