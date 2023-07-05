@@ -18,17 +18,6 @@ export class Box extends Entity {
         //this.box.setPosition(0, 0.5, -(this.box.getLocalScale().x + this.box.getLocalScale().x * 0.20))
         this.addChild(this.box)
 
-        // this.box.addComponent("rigidbody", {
-        //     type: "static",
-        //     mass: 50,
-        //     restitution: 0.5,
-        // });
-
-        // this.box.addComponent("collision", {
-        //     type: "box",
-        //     halfExtents: new pc.Vec3(this.box.getLocalScale().x, this.box.getLocalScale().y, this.box.getLocalScale().z), // Kích thước của vùng va chạm thu nhỏ
-        // });
-
 
         this.moveLeft = false
         this.moveDown = true
