@@ -49,7 +49,8 @@ export class PlayScene extends Scene {
             box2.moveRight = false
         }
         box2.box.setLocalPosition(box2.box.getPosition().x, this.temp2, box2.box.getPosition().z);
-        box2.material.diffuse = new pc.Color().fromString(this.hexColor);
+        const color = new pc.Color().fromString(this.hexColor);
+        box2.material.diffuse = color
         var colorValue = parseInt(this.hexColor.substring(1), 16);
         colorValue -= this.colorStep;
         this.hexColor = '#' + colorValue.toString(16).padStart(6, '0');
@@ -83,7 +84,8 @@ export class PlayScene extends Scene {
         boxStay.moveRight = false
         boxStay.moveUp = false
         boxStay.shouldChangeDirection = false;
-        boxStay.material.diffuse = new pc.Color().fromString(this.hexColor);
+        boxStay.material.diffuse = color
+        boxFall.material.diffuse = color
 
         this.removeChild(this.oldBox)
 
