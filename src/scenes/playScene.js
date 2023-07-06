@@ -90,10 +90,14 @@ export class PlayScene extends Scene {
         this.removeChild(this.oldBox)
 
         this.addChild(box2);
+        this.addChild(boxStay)
+        this.addChild(boxFall)
 
 
 
-        this.physics(boxFall, 'dynamic')
+        setTimeout(() => {
+            this.physics(boxFall, 'dynamic');
+        }, 120);
         this.physics(boxStay, 'static')
 
 
@@ -169,7 +173,6 @@ export class PlayScene extends Scene {
         });
 
 
-        this.addChild(box)
 
     }
 
