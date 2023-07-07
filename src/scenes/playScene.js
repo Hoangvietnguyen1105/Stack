@@ -46,15 +46,15 @@ export class PlayScene extends Scene {
         this.temp = this.camera.camera.getPosition().y + box2.box.getLocalScale().y;
         this.temp2 += box2.box.getLocalScale().y;
         if (this.change === true) {
-            box2.box.setLocalPosition(
-                0,
+            box2.box.setPosition(
+                box2.box.getPosition().x,
                 0.5,
-                -(box2.box.getLocalScale().z + box2.box.getLocalScale().z * 0.20)
+                -0.3
             );
             box2.moveLeft = true;
             box2.moveRight = false;
         }
-        box2.box.setLocalPosition(
+        box2.box.setPosition(
             box2.box.getPosition().x,
             this.temp2,
             box2.box.getPosition().z
@@ -87,13 +87,13 @@ export class PlayScene extends Scene {
             box2.box.setLocalPosition(
                 boxStay.box.getPosition().x,
                 boxStay.box.getPosition().y + boxStay.box.getLocalScale().y,
-                -(boxStay.box.getPosition().z + boxStay.box.getPosition().z + (boxStay.box.getLocalScale().z * 0.2))
+                -0.3
             );
         }
         if (this.change !== true) {
             box2.box.setLocalScale(boxStay.box.getLocalScale());
             box2.box.setLocalPosition(
-                -(boxStay.box.getPosition().x + boxStay.box.getPosition().x + (boxStay.box.getLocalScale().x * 0.2)),
+                -0.3,
                 boxStay.box.getPosition().y + boxStay.box.getLocalScale().y,
                 boxStay.box.getPosition().z
             );
@@ -109,6 +109,7 @@ export class PlayScene extends Scene {
 
         this.removeChild(this.oldBox);
         if (!this.gameEnd) {
+            console.log(box2.box.getPosition())
             this.addChild(box2);
             this.addChild(boxStay);
         }
@@ -150,8 +151,7 @@ export class PlayScene extends Scene {
         var B = colorValue & 255;
         // Điều chỉnh giá trị bước giảm màu
         if (G > 90) {
-            console.log(G)
-            console.log(Math.max(this._tintColor(G, 'G'), 90))
+
 
             G = Math.max(this._tintColor(G, 'G'), 90)
         }

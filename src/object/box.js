@@ -14,8 +14,8 @@ export class Box extends Entity {
             material: this.material,
         });
         this.box.setLocalScale(0.25, 0.035, 0.25);
-        this.box.setLocalPosition(-(this.box.getLocalScale().x + this.box.getLocalScale().x * 0.20), 0.5, 0)
-
+        this.box.setLocalPosition(-0.3, 0.5, 0)
+        console.log(-(this.box.getLocalScale().x + this.box.getLocalScale().x * 0.20))
         this.addChild(this.box)
 
 
