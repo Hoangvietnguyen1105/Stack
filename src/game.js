@@ -47,6 +47,7 @@ export class Game {
                     console.error("Loading failed:", error);
                 });
         });
+
         this.app.systems.rigidbody.gravity.set(0, -1.5, 0);
 
         Game.app.mouse.on(pc.EVENT_MOUSEDOWN, this.onMouseDown, this);

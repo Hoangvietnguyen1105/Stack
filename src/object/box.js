@@ -15,7 +15,7 @@ export class Box extends Entity {
         });
         this.box.setLocalScale(0.25, 0.035, 0.25);
         this.box.setLocalPosition(-(this.box.getLocalScale().x + this.box.getLocalScale().x * 0.20), 0.5, 0)
-        //this.box.setPosition(0, 0.5, -(this.box.getLocalScale().x + this.box.getLocalScale().x * 0.20))
+
         this.addChild(this.box)
 
 
@@ -36,19 +36,6 @@ export class Box extends Entity {
         this.material.metalness = 0.4;
         this.material.update();
     }
-    // onMouseDown() {
-    //     this.box.removeComponent("rigidbody");
-
-    //     this.box.addComponent("rigidbody", {
-    //         mass: 3000,
-    //         type: "dynamic",
-    //     });
-
-
-    // }
-
-
-
 
     update(dt) {
         if (!dt) {
