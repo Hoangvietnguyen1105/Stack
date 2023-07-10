@@ -6,7 +6,7 @@ import { Game } from "../game";
 export class Box extends Entity {
     constructor() {
         super()
-        this.speed = 0.3; // Tốc độ di chuyển của hộp
+        this.speed = 0.4; // Tốc độ di chuyển của hộp
         this.createMateria()
         this.box = new pc.Entity("cube");
         this.box.addComponent("render", {
@@ -15,7 +15,6 @@ export class Box extends Entity {
         });
         this.box.setLocalScale(0.25, 0.035, 0.25);
         this.box.setLocalPosition(-0.3, 0.5, 0)
-        console.log(-(this.box.getLocalScale().x + this.box.getLocalScale().x * 0.20))
         this.addChild(this.box)
 
 

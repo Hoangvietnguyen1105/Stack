@@ -4,8 +4,9 @@ import { Game } from "../game";
 import { Light } from "../object/Light.js";
 import { Camera } from "../object/Camera.js";
 import { Box } from "../object/box.js";
-import { LogicPlayScene } from "../logic/logicPlay.js";
+import { LogicPlayScene } from "../logic/splitBox.js";
 import { Loader } from "../assetLoader/Loader.js";
+import { Color } from "../logic/randomColor.js";
 export class PlayScene extends Scene {
     constructor() {
         super('PlayScene');
@@ -17,46 +18,53 @@ export class PlayScene extends Scene {
     }
 
     update(dt) {
-
+        if (this.countUp > 0) {
+            this.scaleUp()
+            this.countUp--;
+        }
         if (this.boxUpdate) {
             this.boxUpdate.update(dt)
         }
-        if (this.camera.camera.getPosition().y < this.temp) {
-            this.camera.camera.setPosition(this.camera.camera.getPosition().x, Math.min(this.camera.camera.getPosition().y + 0.2 * dt, this.temp), this.camera.camera.getPosition().z)
+        if (this.camera.camera.getPosition().y < this.CamPosition) {
+            this.camera.camera.setPosition(this.camera.camera.getPosition().x, Math.min(this.camera.camera.getPosition().y + 0.2 * dt, this.CamPosition), this.camera.camera.getPosition().z)
         }
     }
 
     _initialize() {
         this._initLight();
         this._initBox();
-        this.boxUpdate = this.box
         this._initCamera();
         this.update()
+        this._initProperty()
+    }
+    _initProperty() {
+        this.boxUpdate = this.box
+
         this.change = true
-        this.temp2 = this.box.box.getPosition().y
+        this.boxPositAfterClick = this.box.box.getPosition().y
         this.oldBox = this.box
         this.boxLoop = this.box
         this.gameEnd = false
+
         this.colorHex = '#5adeff'
+
+        this.countUp = 0
+        this.countPerfect = 0
+
+        this.boxSpeed = 0.3
     }
 
     onMouseDown() {
         const box2 = new Box();
+        box2.speed = this.boxSpeed
+        this.boxSpeed += 0.005
         this.boxUpdate = box2;
-        this.temp = this.camera.camera.getPosition().y + box2.box.getLocalScale().y;
-        this.temp2 += box2.box.getLocalScale().y;
-        if (this.change === true) {
-            box2.box.setPosition(
-                box2.box.getPosition().x,
-                0.5,
-                -0.3
-            );
-            box2.moveLeft = true;
-            box2.moveRight = false;
-        }
+        this.CamPosition = this.camera.camera.getPosition().y + box2.box.getLocalScale().y;
+        this.boxPositAfterClick += box2.box.getLocalScale().y;
+
         box2.box.setPosition(
             box2.box.getPosition().x,
-            this.temp2,
+            this.boxPositAfterClick,
             box2.box.getPosition().z
         );
         const color = new pc.Color().fromString(this.colorHex);
@@ -71,7 +79,7 @@ export class PlayScene extends Scene {
             this.change,
             this.oldBox,
             this.oldoldbox,
-            this.temp2
+            this.boxPositAfterClick
         );
 
         if (this.gameEnd) {
@@ -89,6 +97,8 @@ export class PlayScene extends Scene {
                 boxStay.box.getPosition().y + boxStay.box.getLocalScale().y,
                 -0.3
             );
+            box2.moveLeft = true;
+            box2.moveRight = false;
         }
         if (this.change !== true) {
             box2.box.setLocalScale(boxStay.box.getLocalScale());
@@ -109,9 +119,19 @@ export class PlayScene extends Scene {
 
         this.removeChild(this.oldBox);
         if (!this.gameEnd) {
-            console.log(box2.box.getPosition())
             this.addChild(box2);
             this.addChild(boxStay);
+            if (boxStay.perfect) {
+                this.countPerfect++
+                if (this.countPerfect >= 7) {
+                    this.boxUp = boxStay
+                    this.countUp = 10
+                }
+
+            }
+            else {
+                this.countPerfect = 0
+            }
         }
         this.addChild(boxFall);
 
@@ -128,7 +148,11 @@ export class PlayScene extends Scene {
         this.change = !this.change;
 
         // Đậm dần màu của box2
-        this.colorHex = this._darkerColor(this.colorHex);
+        this.colorHex = Color._darkerColor(this.colorHex);
+    }
+
+    scaleUp() {
+        this.boxUp.box.setLocalScale(this.boxUp.box.getLocalScale().x + this.boxUp.box.getLocalScale().x * 0.005, this.boxUp.box.getLocalScale().y, this.boxUp.box.getLocalScale().z + this.boxUp.box.getLocalScale().z * 0.005)
     }
 
     physics(box, type) {
@@ -144,37 +168,6 @@ export class PlayScene extends Scene {
         });
     }
 
-    _darkerColor(hexColor) {
-        const colorValue = parseInt(hexColor.substring(1), 16);
-        var R = (colorValue >> 16) & 255;
-        var G = (colorValue >> 8) & 255;
-        var B = colorValue & 255;
-        // Điều chỉnh giá trị bước giảm màu
-        if (G > 90) {
-
-
-            G = Math.max(this._tintColor(G, 'G'), 90)
-        }
-        else if (R < 255) {
-            R = Math.min(255, this._tintColor(R, 'R'))
-        }
-        else if (B > 90) {
-            B = Math.max(this._tintColor(B, 'B'), 90)
-        }
-        const darkerValue = (R << 16) | (G << 8) | B;
-        return '#' + darkerValue.toString(16).padStart(6, '0');
-    }
-    _tintColor(RGB, color) {
-        if (color === 'G') {
-            return RGB - 8
-        }
-        else if (color === 'R') {
-            return RGB + 8
-        }
-        else if (color === 'B') {
-            return RGB - 8
-        }
-    }
 
     _initBox() {
 
@@ -193,7 +186,7 @@ export class PlayScene extends Scene {
             this.addChild(box3);
 
             box3.material.diffuse = new pc.Color().fromString(this.hexColor);
-            this.hexColor = this._darkerColor(this.hexColor)
+            this.hexColor = Color._darkerColor(this.hexColor)
             box3.moveDown = false;
             box3.moveLeft = false;
             box3.moveUp = false;
