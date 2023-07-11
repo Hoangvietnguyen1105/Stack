@@ -1,12 +1,12 @@
 import { Entity, extend } from "playcanvas";
 import { Game } from "../game";
-
+import { Config } from "../gameConfig";
 
 
 export class Box extends Entity {
     constructor() {
         super()
-        this.speed = 0.4; // Tốc độ di chuyển của hộp
+        this.speed = Config.box['speed']; // Tốc độ di chuyển của hộp
         this.createMateria()
         this.box = new pc.Entity("cube");
         this.box.addComponent("render", {
@@ -30,7 +30,7 @@ export class Box extends Entity {
 
         this.material = new pc.StandardMaterial();
         this.material.useMetalness = true;
-        this.material.diffuse = new pc.Color(68 / 255, 210 / 255, 191 / 255);
+        this.material.diffuse = new pc.Color().fromString(Config.color1['firstColor']);
         this.material.gloss = 1.3;
         this.material.metalness = 0.4;
         this.material.update();

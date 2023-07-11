@@ -8,8 +8,8 @@ export class Camera extends pc.Entity {
             clearColor: new pc.Color(131 / 255, 221 / 255, 224 / 255),
         });
 
-        this.camera.setLocalPosition(0.5530560612678528, 1.0613877773284912, 0.5824261903762817);
-        this.camera.setLocalEulerAngles(-34.952011300760084, 43.51833020722977, 0)
+        this.camera.setLocalPosition(0.612, 1.134, 0.596);
+        this.camera.setLocalEulerAngles(-33.95, 45.69, 0)
         this.camera.setLocalScale(1, 1, 1)
         this.camera.addComponent("script");
 

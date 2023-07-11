@@ -31,7 +31,6 @@ export class StartScene extends Scene {
 
     onMouseDown() {
 
-        Game.load()
     }
 
     _initBox() {

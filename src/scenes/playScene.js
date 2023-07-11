@@ -7,6 +7,7 @@ import { Box } from "../object/box.js";
 import { LogicPlayScene } from "../logic/splitBox.js";
 import { Loader } from "../assetLoader/Loader.js";
 import { Color } from "../logic/randomColor.js";
+import { Config } from "../gameConfig.js";
 export class PlayScene extends Scene {
     constructor() {
         super('PlayScene');
@@ -44,20 +45,22 @@ export class PlayScene extends Scene {
         this.boxPositAfterClick = this.box.box.getPosition().y
         this.oldBox = this.box
         this.boxLoop = this.box
+        // define when game end or not
         this.gameEnd = false
-
-        this.colorHex = '#5adeff'
-
+        // default colorHex
+        this.colorHex = Config.color1['firstColor']
+        // count when perfect an up scale for box
         this.countUp = 0
         this.countPerfect = 0
-
-        this.boxSpeed = 0.3
+        //default speed of box
+        this.boxSpeed = Config.box['speed']
     }
 
     onMouseDown() {
         const box2 = new Box();
         box2.speed = this.boxSpeed
-        this.boxSpeed += 0.005
+        // increase speed 
+        this.boxSpeed += Config.box['speedup']
         this.boxUpdate = box2;
         this.CamPosition = this.camera.camera.getPosition().y + box2.box.getLocalScale().y;
         this.boxPositAfterClick += box2.box.getLocalScale().y;
@@ -173,12 +176,11 @@ export class PlayScene extends Scene {
 
         this.box = new Box();
         this.boxUpdate = this.box
-        this.box.material.diffuse = new pc.Color().fromString('#5adeff');
         this.change = true;
         this.addChild(this.box);
 
         this.lct = 0 - this.box.box.getLocalScale().y;
-        this.hexColor = '#5af7ff';
+        this.hexColor = Config.color1['firstColor'];
         this.colorStep = -30;
 
         for (var i = 0; i < 30; i++) {
