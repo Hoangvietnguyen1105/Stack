@@ -19,6 +19,9 @@ export class Loader {
                 new pc.Asset("font", "font", {
                     url: "assets/sprites/fonts/courier.json",
                 }),
+                new pc.Asset("perfect", "texture", {
+                    url: "assets/sprites/tex_rectangle.png",
+                }),
             ];
 
             const assetListLoader = new pc.AssetListLoader(assets, this.app.assets);

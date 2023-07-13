@@ -1,6 +1,7 @@
 import { Entity, extend } from "playcanvas";
 import { Game } from "../game";
 import { Config } from "../gameConfig";
+import { Loader } from "../assetLoader/Loader";
 
 
 export class Box extends Entity {
@@ -34,6 +35,8 @@ export class Box extends Entity {
         this.material.gloss = 1.3;
         this.material.metalness = 0.4;
         this.material.update();
+
+
     }
 
     update(dt) {

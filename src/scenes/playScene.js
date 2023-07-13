@@ -8,6 +8,7 @@ import { LogicPlayScene } from "../logic/splitBox.js";
 import { Loader } from "../assetLoader/Loader.js";
 import { Color } from "../logic/randomColor.js";
 import { Config } from "../gameConfig.js";
+import { Plane } from "../object/plane.js";
 export class PlayScene extends Scene {
     constructor() {
         super('PlayScene');
@@ -19,6 +20,7 @@ export class PlayScene extends Scene {
     }
 
     update(dt) {
+
         if (this.countUp > 0) {
             this.scaleUp()
             this.countUp--;
@@ -27,7 +29,7 @@ export class PlayScene extends Scene {
             this.boxUpdate.update(dt)
         }
         if (this.camera.camera.getPosition().y < this.CamPosition) {
-            this.camera.camera.setPosition(this.camera.camera.getPosition().x, Math.min(this.camera.camera.getPosition().y + 0.2 * dt, this.CamPosition), this.camera.camera.getPosition().z)
+            this.camera.camera.setPosition(this.camera.camera.getPosition().x, Math.min(this.camera.camera.getPosition().y + 0.12 * dt, this.CamPosition), this.camera.camera.getPosition().z)
         }
     }
 
@@ -40,7 +42,6 @@ export class PlayScene extends Scene {
     }
     _initProperty() {
         this.boxUpdate = this.box
-
         this.change = true
         this.boxPositAfterClick = this.box.box.getPosition().y
         this.oldBox = this.box
@@ -57,6 +58,9 @@ export class PlayScene extends Scene {
     }
 
     onMouseDown() {
+        if (this.gameEnd) {
+            return;
+        }
         const box2 = new Box();
         box2.speed = this.boxSpeed
         // increase speed 
@@ -65,11 +69,6 @@ export class PlayScene extends Scene {
         this.CamPosition = this.camera.camera.getPosition().y + box2.box.getLocalScale().y;
         this.boxPositAfterClick += box2.box.getLocalScale().y;
 
-        box2.box.setPosition(
-            box2.box.getPosition().x,
-            this.boxPositAfterClick,
-            box2.box.getPosition().z
-        );
         const color = new pc.Color().fromString(this.colorHex);
         box2.material.diffuse = color;
 
@@ -112,19 +111,18 @@ export class PlayScene extends Scene {
             );
         }
 
-        boxStay.moveLeft = false;
-        boxStay.moveDown = false;
-        boxStay.moveRight = false;
-        boxStay.moveUp = false;
-        boxStay.shouldChangeDirection = false;
         boxStay.material.diffuse = this.oldBox.material.diffuse;
         boxFall.material.diffuse = this.oldBox.material.diffuse;
 
-        this.removeChild(this.oldBox);
+        //perfect time
         if (!this.gameEnd) {
             this.addChild(box2);
             this.addChild(boxStay);
             if (boxStay.perfect) {
+                this._initPlane(
+                    boxStay.box.getPosition().x, boxStay.box.getPosition().y, boxStay.box.getPosition().z,
+                    boxStay.box.getLocalScale().x, boxStay.box.getLocalScale().y, boxStay.box.getLocalScale().z
+                )
                 this.countPerfect++
                 if (this.countPerfect >= 7) {
                     this.boxUp = boxStay
@@ -136,6 +134,8 @@ export class PlayScene extends Scene {
                 this.countPerfect = 0
             }
         }
+
+        this.removeChild(this.oldBox);
         this.addChild(boxFall);
 
         // Add physics
@@ -169,6 +169,15 @@ export class PlayScene extends Scene {
             mass: 50,
             restitution: 0.5,
         });
+    }
+
+    _initPlane(x, y, z, x1, y1, z1) {
+        this.plane = new Plane()
+        this.addChild(this.plane)
+        this.plane.plane.setLocalPosition(x, y, z)
+        console.log(x1, y1, z1)
+
+        this.plane.plane.setLocalScale(x1 + 0.03, y1 * 1.3, z1 + 0.03)
     }
 
 
