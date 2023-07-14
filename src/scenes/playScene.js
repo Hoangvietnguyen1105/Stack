@@ -10,6 +10,7 @@ import { Color } from "../logic/randomColor.js";
 import { Config } from "../gameConfig.js";
 import { Plane } from "../object/plane.js";
 import { Plane2 } from "../object/plane2.js";
+import { TestEffect } from "../object/effect/testEffect.js";
 
 export class PlayScene extends Scene {
     constructor() {
@@ -39,8 +40,9 @@ export class PlayScene extends Scene {
         this._initLight();
         this._initBox();
         this._initCamera();
-        this.update()
-        this._initProperty()
+        this.update();
+        this._initProperty();
+        this._initTestEffect();
     }
     _initProperty() {
         this.boxUpdate = this.box
@@ -203,6 +205,12 @@ export class PlayScene extends Scene {
         this.addChild(plane)
         plane.plane.setLocalPosition(x, y, z)
         plane.plane.setLocalScale(x1, y1, z1)
+    }
+
+    _initTestEffect() {
+        this.testEffect = new TestEffect();
+        this.addChild(this.testEffect);
+        this.testEffect.play();
     }
 
 
