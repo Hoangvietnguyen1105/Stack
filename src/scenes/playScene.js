@@ -9,6 +9,8 @@ import { Loader } from "../assetLoader/Loader.js";
 import { Color } from "../logic/randomColor.js";
 import { Config } from "../gameConfig.js";
 import { Plane } from "../object/plane.js";
+import { Plane2 } from "../object/plane2.js";
+
 export class PlayScene extends Scene {
     constructor() {
         super('PlayScene');
@@ -124,6 +126,24 @@ export class PlayScene extends Scene {
                     boxStay.box.getLocalScale().x, boxStay.box.getLocalScale().y, boxStay.box.getLocalScale().z
                 )
                 this.countPerfect++
+                if (this.countPerfect >= 4) {
+                    this._initPlane2(
+                        boxStay.box.getPosition().x, boxStay.box.getPosition().y, boxStay.box.getPosition().z,
+                        Config.box['scaleX'] * 2, 0.1, Config.box['scaleZ'] * 2
+                    )
+                }
+                // if (this.countPerfect >= 5) {
+                //     this._initPlane2(
+                //         boxStay.box.getPosition().x, boxStay.box.getPosition().y, boxStay.box.getPosition().z,
+                //         Config.box['scaleX'] * 1.5, 0.1, Config.box['scaleZ'] * 1.5
+                //     )
+                // }
+                // if (this.countPerfect >= 6) {
+                //     this._initPlane2(
+                //         boxStay.box.getPosition().x, boxStay.box.getPosition().y, boxStay.box.getPosition().z,
+                //         Config.box['scaleX'] * 1.3, 0.1, Config.box['scaleZ'] * 1.3
+                //     )
+                // }
                 if (this.countPerfect >= 7) {
                     this.boxUp = boxStay
                     this.countUp = 10
@@ -175,10 +195,16 @@ export class PlayScene extends Scene {
         this.plane = new Plane()
         this.addChild(this.plane)
         this.plane.plane.setLocalPosition(x, y, z)
-        console.log(x1, y1, z1)
 
         this.plane.plane.setLocalScale(x1 + 0.03, y1 * 1.3, z1 + 0.03)
     }
+    _initPlane2(x, y, z, x1, y1, z1) {
+        const plane = new Plane2()
+        this.addChild(plane)
+        plane.plane.setLocalPosition(x, y, z)
+        plane.plane.setLocalScale(x1, y1, z1)
+    }
+
 
 
     _initBox() {
