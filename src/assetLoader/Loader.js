@@ -22,6 +22,27 @@ export class Loader {
                 new pc.Asset("perfect", "texture", {
                     url: "assets/sprites/tex_rectangle.png",
                 }),
+                new pc.Asset("perfectAudio1", "audio", {
+                    url: "assets/sprites/audio/do.mp3"
+                }),
+                new pc.Asset("perfectAudio2", "audio", {
+                    url: "assets/sprites/audio/re.mp3"
+                }),
+                new pc.Asset("perfectAudio3", "audio", {
+                    url: "assets/sprites/audio/mi.mp3"
+                }),
+                new pc.Asset("perfectAudio4", "audio", {
+                    url: "assets/sprites/audio/fa.mp3"
+                }),
+                new pc.Asset("perfectAudio5", "audio", {
+                    url: "assets/sprites/audio/sol.mp3"
+                }),
+                new pc.Asset("perfectAudio6", "audio", {
+                    url: "assets/sprites/audio/la.mp3"
+                }),
+                new pc.Asset("perfectAudio7", "audio", {
+                    url: "assets/sprites/audio/si.mp3"
+                })
             ];
 
             const assetListLoader = new pc.AssetListLoader(assets, this.app.assets);

@@ -37,12 +37,13 @@ export class PlayScene extends Scene {
     }
 
     _initialize() {
+        this._initAudio()
         this._initLight();
         this._initBox();
         this._initCamera();
         this.update();
         this._initProperty();
-        this._initTestEffect();
+        // this._initTestEffect();
     }
     _initProperty() {
         this.boxUpdate = this.box
@@ -123,29 +124,23 @@ export class PlayScene extends Scene {
             this.addChild(box2);
             this.addChild(boxStay);
             if (boxStay.perfect) {
+                if (this.countPerfect < 7)
+                    this.countPerfect++
+                const self = this;
+                this.sound.play(`perfect${this.countPerfect}`);
+                setTimeout(function () {
+                    self.sound.pause(`perfect${self.countPerfect}`);
+                }, 650);
                 this._initPlane(
                     boxStay.box.getPosition().x, boxStay.box.getPosition().y, boxStay.box.getPosition().z,
                     boxStay.box.getLocalScale().x, boxStay.box.getLocalScale().y, boxStay.box.getLocalScale().z
                 )
-                this.countPerfect++
                 if (this.countPerfect >= 4) {
                     this._initPlane2(
                         boxStay.box.getPosition().x, boxStay.box.getPosition().y, boxStay.box.getPosition().z,
                         Config.box['scaleX'] * 2, 0.1, Config.box['scaleZ'] * 2
                     )
                 }
-                // if (this.countPerfect >= 5) {
-                //     this._initPlane2(
-                //         boxStay.box.getPosition().x, boxStay.box.getPosition().y, boxStay.box.getPosition().z,
-                //         Config.box['scaleX'] * 1.5, 0.1, Config.box['scaleZ'] * 1.5
-                //     )
-                // }
-                // if (this.countPerfect >= 6) {
-                //     this._initPlane2(
-                //         boxStay.box.getPosition().x, boxStay.box.getPosition().y, boxStay.box.getPosition().z,
-                //         Config.box['scaleX'] * 1.3, 0.1, Config.box['scaleZ'] * 1.3
-                //     )
-                // }
                 if (this.countPerfect >= 7) {
                     this.boxUp = boxStay
                     this.countUp = 10
@@ -256,5 +251,57 @@ export class PlayScene extends Scene {
         this.light.light.setLocalPosition(-0.19, 1.0613877773284912, -0.13);
         this.light.light.set
         this.addChild(this.light.light);
+    }
+    _initAudio() {
+        this.addComponent("sound")
+        const perfect1 = Loader.getAssetByKey('perfectAudio1')
+        this.sound.addSlot("perfect1", {
+            asset: perfect1,
+            pitch: 1.7,
+            loop: true,
+            autoPlay: false,
+        });
+        const perfect2 = Loader.getAssetByKey('perfectAudio2')
+        this.sound.addSlot("perfect2", {
+            asset: perfect2,
+            pitch: 1.7,
+            loop: true,
+            autoPlay: false,
+        });
+        const perfect3 = Loader.getAssetByKey('perfectAudio3')
+        this.sound.addSlot("perfect3", {
+            asset: perfect3,
+            pitch: 1.7,
+            loop: true,
+            autoPlay: false,
+        });
+        const perfect4 = Loader.getAssetByKey('perfectAudio4')
+        this.sound.addSlot("perfect4", {
+            asset: perfect4,
+            pitch: 1.7,
+            loop: true,
+            autoPlay: false,
+        });
+        const perfect5 = Loader.getAssetByKey('perfectAudio5')
+        this.sound.addSlot("perfect5", {
+            asset: perfect5,
+            pitch: 1.7,
+            loop: true,
+            autoPlay: false,
+        });
+        const perfect6 = Loader.getAssetByKey('perfectAudio6')
+        this.sound.addSlot("perfect6", {
+            asset: perfect6,
+            pitch: 1.7,
+            loop: true,
+            autoPlay: false,
+        });
+        const perfect7 = Loader.getAssetByKey('perfectAudio7')
+        this.sound.addSlot("perfect7", {
+            asset: perfect7,
+            pitch: 1.7,
+            loop: true,
+            autoPlay: false,
+        });
     }
 }

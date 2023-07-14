@@ -5,18 +5,28 @@ import { Loader } from "../assetLoader/Loader";
 
 export class Plane2 extends Entity {
     constructor() {
-        super()
+        super();
         this.plane = new pc.Entity("plane");
-        this.createMateria()
-        this.plane.addComponent("render", {
-            type: "plane",
-            material: this.material,
-        });
-        // this.plane.setLocalScale(Config.box['scaleX'] * 2, 0.1, Config.box['scaleZ'] * 2)
-        this.addChild(this.plane)
-        Game.app.on("update", (dt) => this.update(dt));
+        this.createMateria();
 
+        const mesh = pc.createPlane(Game.app.graphicsDevice, {
+            width: 1,
+            height: 1,
+        });
+
+        const meshInstance = new pc.MeshInstance(mesh, this.material);
+
+        this.plane.addComponent("render", {
+            type: "asset",
+            castShadows: false,
+            receiveShadows: false,
+            meshInstances: [meshInstance],
+        });
+
+        this.addChild(this.plane);
+        Game.app.on("update", (dt) => this.update(dt));
     }
+
 
 
 
