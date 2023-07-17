@@ -23,28 +23,35 @@ export class startMenu extends Entity {
         this.addChild(this.screen)
     }
     _initButton() {
-        let texture = Loader.getAssetByKey("replay").resource;
+        let texture = Loader.getAssetByKey("replay");
+        console.log(texture)
         this.button = new pc.Entity();
         this.button.addComponent("button", {
             active: true,
             imageEntity: this.button,
-            transitionMode: pc.BUTTON_TRANSITION_MODE_SPRITE_CHANGE,
+            hitPadding: [0, 0, 0, 0],
+            transitionMode: pc.BUTTON_TRANSITION_MODE_TINT,
         });
 
         this.button.addComponent("element", {
             anchor: [0.5, 0.5, 0.5, 0.5],
             height: 40,
             pivot: [0.5, 0.5],
+            color: [1, 1, 1],
+            opacity: 1,
+            rect: [0, 0, 1, 1],
+            textureAsset: texture,
+            fitMode: 'Strech',
             type: pc.ELEMENTTYPE_IMAGE,
             width: 175,
             useInput: true,
         });
 
-        // Create a label for the button
+        //Create a label for the button
         const label = new pc.Entity();
         label.addComponent("element", {
             anchor: [0.5, 0.5, 0.5, 0.5],
-            color: new pc.Color(0, 0, 0),
+            color: new pc.Color(1, 1, 1),
             fontAsset: Loader.getAssetByKey('font'),
             fontSize: 32,
             height: 64,
@@ -60,6 +67,7 @@ export class startMenu extends Entity {
         this.button.button.on("click", function () {
             Game.load()
         });
+        this.button.setLocalPosition(0, -150, 0)
 
     }
     _initPoint() {
@@ -69,7 +77,7 @@ export class startMenu extends Entity {
             pivot: new pc.Vec2(0.5, 0.5),
             anchor: new pc.Vec4(0.5, 0.5, 0.5, 0.5),
             fontAsset: Loader.getAssetByKey('font'),
-            fontSize: 100,
+            fontSize: 200,
             text: this.point,
             shadowColor: new pc.Color(1, 0, 0),
             shadowOffset: new pc.Vec2(0.25, -0.25),
