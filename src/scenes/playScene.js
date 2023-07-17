@@ -1,4 +1,3 @@
-
 import { Scene } from "../scene/scene.js";
 import { Game } from "../game";
 import { Light } from "../object/Light.js";
@@ -11,7 +10,9 @@ import { Config } from "../gameConfig.js";
 import { Plane } from "../object/plane.js";
 import { Plane2 } from "../object/plane2.js";
 import { TestEffect } from "../object/effect/testEffect.js";
-
+import { Audio } from "../object/audio.js";
+import { physics } from "../object/physics.js";
+import { startMenu } from "../screens/startMenu.js";
 export class PlayScene extends Scene {
     constructor() {
         super('PlayScene');
@@ -23,7 +24,9 @@ export class PlayScene extends Scene {
     }
 
     update(dt) {
-
+        if (this.menu) {
+            this.menu.update(dt)
+        }
         if (this.countUp > 0) {
             this.scaleUp()
             this.countUp--;
@@ -43,7 +46,10 @@ export class PlayScene extends Scene {
         this._initCamera();
         this.update();
         this._initProperty();
-        // this._initTestEffect();
+        this._initTestEffect();
+        this.menu = new startMenu()
+        this.addChild(this.menu)
+
     }
     _initProperty() {
         this.boxUpdate = this.box
@@ -60,12 +66,15 @@ export class PlayScene extends Scene {
         this.countPerfect = 0
         //default speed of box
         this.boxSpeed = Config.box['speed']
+        //point
+        this.point = 0
     }
 
     onMouseDown() {
         if (this.gameEnd) {
             return;
         }
+
         const box2 = new Box();
         box2.speed = this.boxSpeed
         // increase speed 
@@ -73,7 +82,6 @@ export class PlayScene extends Scene {
         this.boxUpdate = box2;
         this.CamPosition = this.camera.camera.getPosition().y + box2.box.getLocalScale().y;
         this.boxPositAfterClick += box2.box.getLocalScale().y;
-
         const color = new pc.Color().fromString(this.colorHex);
         box2.material.diffuse = color;
 
@@ -92,10 +100,17 @@ export class PlayScene extends Scene {
         if (this.gameEnd) {
             boxFall = this.oldBox;
             setTimeout(() => {
-                Game.replay();
+                this.menu.gameReplaybutton = true
                 return;
             }, 1500);
         }
+
+        if (!this.gameEnd) {
+            this.point++
+            this.menu.point = this.point
+        }
+
+
 
         if (this.change === true) {
             box2.box.setLocalScale(boxStay.box.getLocalScale());
@@ -126,11 +141,11 @@ export class PlayScene extends Scene {
             if (boxStay.perfect) {
                 if (this.countPerfect < 7)
                     this.countPerfect++
-                const self = this;
+
                 this.sound.play(`perfect${this.countPerfect}`);
-                setTimeout(function () {
-                    self.sound.pause(`perfect${self.countPerfect}`);
-                }, 650);
+                setTimeout(function (count) {
+                    this.sound.pause(`perfect${count}`);
+                }.bind(this, this.countPerfect), 650);
                 this._initPlane(
                     boxStay.box.getPosition().x, boxStay.box.getPosition().y, boxStay.box.getPosition().z,
                     boxStay.box.getLocalScale().x, boxStay.box.getLocalScale().y, boxStay.box.getLocalScale().z
@@ -142,6 +157,10 @@ export class PlayScene extends Scene {
                     )
                 }
                 if (this.countPerfect >= 7) {
+                    this.testEffect.play();
+                    setTimeout(function () {
+                        this.testEffect.stop();
+                    }.bind(this), 2000);
                     this.boxUp = boxStay
                     this.countUp = 10
                 }
@@ -157,9 +176,9 @@ export class PlayScene extends Scene {
 
         // Add physics
         setTimeout(() => {
-            this.physics(boxFall, 'dynamic');
+            physics.physics(boxFall, 'dynamic');
         }, 120);
-        this.physics(boxStay, 'static');
+        physics.physics(boxStay, 'static');
 
         this.boxLoop = box2;
         this.oldoldbox = boxStay;
@@ -175,18 +194,7 @@ export class PlayScene extends Scene {
         this.boxUp.box.setLocalScale(this.boxUp.box.getLocalScale().x + this.boxUp.box.getLocalScale().x * 0.005, this.boxUp.box.getLocalScale().y, this.boxUp.box.getLocalScale().z + this.boxUp.box.getLocalScale().z * 0.005)
     }
 
-    physics(box, type) {
 
-        box.box.addComponent("collision", {
-            type: "box",
-            halfExtents: new pc.Vec3(box.box.getLocalScale().x / 2, box.box.getLocalScale().y / 2, box.box.getLocalScale().z / 2), // Kích thước của vùng va chạm thu nhỏ
-        });
-        box.box.addComponent("rigidbody", {
-            type: type,
-            mass: 50,
-            restitution: 0.5,
-        });
-    }
 
     _initPlane(x, y, z, x1, y1, z1) {
         this.plane = new Plane()
@@ -205,13 +213,11 @@ export class PlayScene extends Scene {
     _initTestEffect() {
         this.testEffect = new TestEffect();
         this.addChild(this.testEffect);
-        this.testEffect.play();
     }
 
 
 
     _initBox() {
-
         this.box = new Box();
         this.boxUpdate = this.box
         this.change = true;
@@ -238,7 +244,7 @@ export class PlayScene extends Scene {
             // Giảm giá trị màu theo colorStep
 
             this.oldoldbox = box3
-            this.physics(box3, 'static')
+            physics.physics(box3, 'static')
         }
     }
     _initCamera() {
@@ -253,55 +259,8 @@ export class PlayScene extends Scene {
         this.addChild(this.light.light);
     }
     _initAudio() {
-        this.addComponent("sound")
-        const perfect1 = Loader.getAssetByKey('perfectAudio1')
-        this.sound.addSlot("perfect1", {
-            asset: perfect1,
-            pitch: 1.7,
-            loop: true,
-            autoPlay: false,
-        });
-        const perfect2 = Loader.getAssetByKey('perfectAudio2')
-        this.sound.addSlot("perfect2", {
-            asset: perfect2,
-            pitch: 1.7,
-            loop: true,
-            autoPlay: false,
-        });
-        const perfect3 = Loader.getAssetByKey('perfectAudio3')
-        this.sound.addSlot("perfect3", {
-            asset: perfect3,
-            pitch: 1.7,
-            loop: true,
-            autoPlay: false,
-        });
-        const perfect4 = Loader.getAssetByKey('perfectAudio4')
-        this.sound.addSlot("perfect4", {
-            asset: perfect4,
-            pitch: 1.7,
-            loop: true,
-            autoPlay: false,
-        });
-        const perfect5 = Loader.getAssetByKey('perfectAudio5')
-        this.sound.addSlot("perfect5", {
-            asset: perfect5,
-            pitch: 1.7,
-            loop: true,
-            autoPlay: false,
-        });
-        const perfect6 = Loader.getAssetByKey('perfectAudio6')
-        this.sound.addSlot("perfect6", {
-            asset: perfect6,
-            pitch: 1.7,
-            loop: true,
-            autoPlay: false,
-        });
-        const perfect7 = Loader.getAssetByKey('perfectAudio7')
-        this.sound.addSlot("perfect7", {
-            asset: perfect7,
-            pitch: 1.7,
-            loop: true,
-            autoPlay: false,
-        });
+        Audio._initAudio(this)
     }
+
+
 }

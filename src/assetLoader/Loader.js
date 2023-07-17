@@ -13,6 +13,9 @@ export class Loader {
                 new pc.Asset("image1", "texture", {
                     url: 'assets/sprites/spr_building_1.png',
                 }),
+                new pc.Asset("replay", "texture", {
+                    url: 'assets/sprites/replay.png',
+                }),
                 new pc.Asset("image2", "texture", {
                     url: 'assets/sprites/spr_building_2.png'
                 }),

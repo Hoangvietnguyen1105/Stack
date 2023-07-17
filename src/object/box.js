@@ -40,6 +40,8 @@ export class Box extends Entity {
     }
 
     update(dt) {
+
+
         if (!dt) {
             return
         }

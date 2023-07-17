@@ -3,8 +3,8 @@ import { Loader } from "../../assetLoader/Loader";
 import { CurveSet } from "playcanvas";
 import { Curve } from "playcanvas";
 
-export class TestEffect extends Entity{
-  constructor(){
+export class TestEffect extends Entity {
+  constructor() {
     super();
     this._initParticle();
   }
@@ -62,5 +62,9 @@ export class TestEffect extends Entity{
 
   play() {
     this.particleEntity.particlesystem.play();
+  }
+  stop() {
+    this.particleEntity.particlesystem.stop();
+
   }
 }
