@@ -13,6 +13,7 @@ import { TestEffect } from "../object/effect/testEffect.js";
 import { Audio } from "../object/audio.js";
 import { physics } from "../object/physics.js";
 import { startMenu } from "../screens/startMenu.js";
+import { beginMenu } from "../screens/beginMenu.js";
 export class PlayScene extends Scene {
     constructor() {
         super('PlayScene');
@@ -24,22 +25,26 @@ export class PlayScene extends Scene {
     }
 
     update(dt) {
-        if (this.menu) {
-            this.menu.update(dt)
+        if (!this.initPoint) {
+            if (this.menu) {
+                this.menu.update(dt)
+            }
+            if (this.countUp > 0) {
+                this.scaleUp()
+                this.countUp--;
+            }
+            if (this.boxUpdate) {
+                this.boxUpdate.update(dt)
+            }
+            if (this.camera.camera.getPosition().y < this.CamPosition) {
+                this.camera.camera.setPosition(this.camera.camera.getPosition().x, Math.min(this.camera.camera.getPosition().y + 0.12 * dt, this.CamPosition), this.camera.camera.getPosition().z)
+            }
         }
-        if (this.countUp > 0) {
-            this.scaleUp()
-            this.countUp--;
-        }
-        if (this.boxUpdate) {
-            this.boxUpdate.update(dt)
-        }
-        if (this.camera.camera.getPosition().y < this.CamPosition) {
-            this.camera.camera.setPosition(this.camera.camera.getPosition().x, Math.min(this.camera.camera.getPosition().y + 0.12 * dt, this.CamPosition), this.camera.camera.getPosition().z)
-        }
+
     }
 
     _initialize() {
+
         this._initAudio()
         this._initLight();
         this._initBox();
@@ -47,8 +52,8 @@ export class PlayScene extends Scene {
         this.update();
         this._initProperty();
         this._initTestEffect();
-        this.menu = new startMenu()
-        this.addChild(this.menu)
+        this.beginMenu = new beginMenu()
+        this.addChild(this.beginMenu)
 
     }
     _initProperty() {
@@ -63,14 +68,22 @@ export class PlayScene extends Scene {
         this.colorHex = Config.color1['firstColor']
         // count when perfect an up scale for box
         this.countUp = 0
-        this.countPerfect = 0
+        this.countPerfect = -1
         //default speed of box
         this.boxSpeed = Config.box['speed']
         //point
-        this.point = 0
+        this.point = -1
+        this.initPoint = true
     }
 
     onMouseDown() {
+        if (this.initPoint) {
+            this.removeChild(this.beginMenu)
+            this.beginMenu.destroy()
+            this.menu = new startMenu()
+            this.addChild(this.menu)
+            this.initPoint = false
+        }
         if (this.gameEnd) {
             return;
         }
@@ -138,7 +151,7 @@ export class PlayScene extends Scene {
         if (!this.gameEnd) {
             this.addChild(box2);
             this.addChild(boxStay);
-            if (boxStay.perfect) {
+            if (boxStay.perfect && this.countPerfect >= 0) {
                 if (this.countPerfect < 7)
                     this.countPerfect++
 
@@ -221,6 +234,8 @@ export class PlayScene extends Scene {
         this.box = new Box();
         this.boxUpdate = this.box
         this.change = true;
+        console.log(this.box.getPosition())
+        this.box.setPosition(this.box.getPosition().x + this.box.getLocalScale().x * 0.30, this.box.getPosition().y, 0)
         this.addChild(this.box);
 
         this.lct = 0 - this.box.box.getLocalScale().y;

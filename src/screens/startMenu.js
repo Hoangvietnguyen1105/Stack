@@ -24,7 +24,6 @@ export class startMenu extends Entity {
     }
     _initButton() {
         let texture = Loader.getAssetByKey("replay");
-        console.log(texture)
         this.button = new pc.Entity();
         this.button.addComponent("button", {
             active: true,
