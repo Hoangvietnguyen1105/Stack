@@ -12,7 +12,7 @@ export class Game {
 
 
     static init() {
-
+        //init
         const canvas = document.createElement("canvas");
         canvas.width = 720;
         canvas.height = 1280;
