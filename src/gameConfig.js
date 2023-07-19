@@ -1,6 +1,6 @@
 export const Config = {
     box: {
-        "speed": 0.4,
+        "speed": 0.5,
         "speedup": 0.004,
         "scaleX": 0.25,
         "scaleY": 0.035,

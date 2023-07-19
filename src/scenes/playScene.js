@@ -185,6 +185,7 @@ export class PlayScene extends Scene {
         }
 
         this.removeChild(this.oldBox);
+        this.oldBox.destroy()
         this.addChild(boxFall);
 
         // Add physics
