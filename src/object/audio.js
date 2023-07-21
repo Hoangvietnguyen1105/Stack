@@ -59,5 +59,26 @@ export class Audio {
             loop: true,
             autoPlay: false,
         });
+        const gameSound = Loader.getAssetByKey('gameSound');
+        obj.sound.addSlot("gameSound", {
+            asset: gameSound,
+            pitch: 1.7,
+            loop: true,
+            autoPlay: false,
+        });
+        const notPerfect = Loader.getAssetByKey('notPerfect');
+        obj.sound.addSlot("notPerfect", {
+            asset: notPerfect,
+            pitch: 1.7,
+            loop: true,
+            autoPlay: false,
+        });
+        const gameOver = Loader.getAssetByKey('gameOver');
+        obj.sound.addSlot("gameOver", {
+            asset: gameOver,
+            pitch: 1.7,
+            loop: true,
+            autoPlay: false,
+        });
     }
 }

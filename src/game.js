@@ -8,6 +8,7 @@ import { SceneManager } from "./scene/sceneManager";
 import { PlayScene } from "./scenes/playScene";
 import { GameConstant } from "./gameConstant"
 import { StartScene } from "./scenes/startScene";
+import { createSkyboxMaterial } from "./object/skybox.js";
 export class Game {
 
 
@@ -49,8 +50,10 @@ export class Game {
         });
 
         this.app.systems.rigidbody.gravity.set(0, -1.5, 0);
-
+       
         Game.app.mouse.on(pc.EVENT_MOUSEDOWN, this.onMouseDown, this);
+        Game.app.touch.on(pc.EVENT_TOUCHSTART, this.onMouseDown, this);
+
         this.app.on("update", (dt) => this.update(dt));
 
 
@@ -77,6 +80,8 @@ export class Game {
             new PlayScene(), new StartScene(),
         ]);
         SceneManager.loadScene(SceneManager.getScene(GameConstant.SCENE_PLAY));
+        // const skyboxMaterial = createSkyboxMaterial();
+      //  this.app.scene.skybox = skyboxMaterial;
     }
 
 

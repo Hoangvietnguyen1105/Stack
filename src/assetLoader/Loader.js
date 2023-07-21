@@ -16,6 +16,24 @@ export class Loader {
                 new pc.Asset("replay", "texture", {
                     url: 'assets/sprites/replay.png',
                 }),
+                new pc.Asset("gradient", "texture", {
+                    url: 'assets/sprites/gradient.png',
+                }),
+                new pc.Asset("playcanvas", "texture", {
+                    url: 'assets/sprites/playcanvas.png',
+                }),
+                new pc.Asset("jShine", "texture", {
+                    url: 'assets/sprites/JShine.jpg',
+                }),
+                new pc.Asset("gameSound", "audio", {
+                    url: 'assets/sprites/audio/GameSound.mp3',
+                }),
+                new pc.Asset("gameOver", "audio", {
+                    url: 'assets/sprites/audio/gameOver.mp3',
+                }),
+                new pc.Asset("notPerfect", "audio", {
+                    url: 'assets/sprites/audio/notPerfect.mp3',
+                }),
                 new pc.Asset("skin", "texture", {
                     url: 'assets/sprites/skin.png',
                 }),

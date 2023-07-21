@@ -16,18 +16,25 @@ export class Color {
         else if (B > 90) {
             B = Math.max(this._tintColor(B, 'B'), 90)
         }
+        else{
+            R = 90
+            G = 222
+            B = 255
+        }
         const darkerValue = (R << 16) | (G << 8) | B;
         return '#' + darkerValue.toString(16).padStart(6, '0');
     }
     static _tintColor(RGB, color) {
+        
         if (color === 'G') {
-            return RGB - 8
+            return RGB - 10
         }
         else if (color === 'R') {
-            return RGB + 8
+            return RGB + 10
         }
         else if (color === 'B') {
-            return RGB - 8
+            return RGB - 10
         }
+        
     }
 }

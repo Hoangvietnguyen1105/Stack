@@ -14,6 +14,9 @@ import { Audio } from "../object/audio.js";
 import { physics } from "../object/physics.js";
 import { startMenu } from "../screens/startMenu.js";
 import { beginMenu } from "../screens/beginMenu.js";
+import { Background } from "../object/background.js";
+import { planeBackground } from "../object/planeBackground.js";
+import { Texture } from "playcanvas";
 export class PlayScene extends Scene {
     constructor() {
         super('PlayScene');
@@ -38,6 +41,7 @@ export class PlayScene extends Scene {
             }
             if (this.camera.camera.getPosition().y < this.CamPosition) {
                 this.camera.camera.setPosition(this.camera.camera.getPosition().x, Math.min(this.camera.camera.getPosition().y + 0.12 * dt, this.CamPosition), this.camera.camera.getPosition().z)
+                this.Background.Background.setPosition( this.Background.Background.getPosition().x,Math.min(this.Background.Background.getPosition().y + 0.12 * dt,this.oldoldbox.box.getLocalScale().y + this.Background.Background.getPosition().y),this.Background.Background.getPosition().z )
             }
         }
 
@@ -45,6 +49,8 @@ export class PlayScene extends Scene {
 
     _initialize() {
 
+        this.Background = new planeBackground()
+        this.addChild(this.Background)
         this._initAudio()
         this._initLight();
         this._initBox();
@@ -54,7 +60,7 @@ export class PlayScene extends Scene {
         this._initTestEffect();
         this.beginMenu = new beginMenu()
         this.addChild(this.beginMenu)
-
+        this.sound.play('gameSound');
     }
     _initProperty() {
         this.boxUpdate = this.box
@@ -74,9 +80,14 @@ export class PlayScene extends Scene {
         //point
         this.point = -1
         this.initPoint = true
+
+        this.test = 1
     }
 
     onMouseDown() {
+        this.sound.stop('gameSound');
+
+        
         if (this.initPoint) {
             this.removeChild(this.beginMenu)
             this.beginMenu.destroy()
@@ -116,6 +127,11 @@ export class PlayScene extends Scene {
                 this.menu.gameReplaybutton = true
                 return;
             }, 1500);
+            this.sound.play('gameOver');
+            setTimeout(function (count) { 
+                this.sound.pause('gameOver');
+            }.bind(this, this.countPerfect), 920);
+
         }
 
         if (!this.gameEnd) {
@@ -181,11 +197,15 @@ export class PlayScene extends Scene {
             }
             else {
                 this.countPerfect = 0
-            }
+                this.sound.play('notPerfect');
+                setTimeout(function (count) {
+                    this.sound.pause('notPerfect');
+                }.bind(this, this.countPerfect), 350);
+            }   
         }
 
         this.removeChild(this.oldBox);
-        this.oldBox.destroy()
+        
         this.addChild(boxFall);
 
         // Add physics
@@ -205,7 +225,7 @@ export class PlayScene extends Scene {
     }
 
     scaleUp() {
-        this.boxUp.box.setLocalScale(this.boxUp.box.getLocalScale().x + this.boxUp.box.getLocalScale().x * 0.005, this.boxUp.box.getLocalScale().y, this.boxUp.box.getLocalScale().z + this.boxUp.box.getLocalScale().z * 0.005)
+        this.boxUp.box.setLocalScale(Math.min(this.boxUp.box.getLocalScale().x + this.boxUp.box.getLocalScale().x * 0.005,0.30), this.boxUp.box.getLocalScale().y, Math.min(this.boxUp.box.getLocalScale().z + this.boxUp.box.getLocalScale().x * 0.005,0.30))
     }
 
 
@@ -237,6 +257,7 @@ export class PlayScene extends Scene {
         this.change = true;
         console.log(this.box.getPosition())
         this.box.setPosition(this.box.getPosition().x + this.box.getLocalScale().x * 0.30, this.box.getPosition().y, 0)
+        console.log(this.box.box.getLocalPosition())
         this.addChild(this.box);
 
         this.lct = 0 - this.box.box.getLocalScale().y;
@@ -266,11 +287,13 @@ export class PlayScene extends Scene {
     _initCamera() {
         this.camera = new Camera()
         this.addChild(this.camera.camera);
+        console.log(this.camera.camera.getPosition())
+        console.log(this.camera.camera.getLocalEulerAngles())
     }
     _initLight() {
         this.light = new Light()
-        this.light.light.setLocalEulerAngles(85.63, -58.9, -126.06)
-        this.light.light.setLocalPosition(-0.19, 1.0613877773284912, -0.13);
+        this.light.light.setLocalEulerAngles(160.84,15.16, 126.2)
+        this.light.light.setLocalPosition(1.467, 2, 0.972);
         this.light.light.set
         this.addChild(this.light.light);
     }
