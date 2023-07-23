@@ -72,15 +72,41 @@ export class Box extends Entity {
             const position = this.box.getPosition();
             // const screenBounds = this.box.getLocalScale().x + this.box.getLocalScale().x * 0.25; // Giới hạn màn hình
             const screenBounds = 0.3125
-            if (position.x >= screenBounds || position.x <= -screenBounds || position.z >= screenBounds || position.z <= -screenBounds) {
+            // if (position.x >= screenBounds || position.x <= -screenBounds || position.z >= screenBounds || position.z <= -screenBounds) {
+            //     console.log(position.x,'x')
+            //     console.log(position.z,'z')
+            //     this.moveLeft = !this.moveLeft;
+            //     this.moveDown = !this.moveDown;
+            //     this.moveRight = !this.moveRight;
+            //     this.moveUp = !this.moveUp;
+            // }
+            if(position.x >= screenBounds &&  this.moveUp === false && this.moveLeft === false){
                 this.moveLeft = !this.moveLeft;
                 this.moveDown = !this.moveDown;
                 this.moveRight = !this.moveRight;
                 this.moveUp = !this.moveUp;
-
+            }
+            else if(position.x <= -screenBounds &&  this.moveRight === false && this.moveDown === false){
+                this.moveLeft = !this.moveLeft;
+                this.moveDown = !this.moveDown;
+                this.moveRight = !this.moveRight;
+                this.moveUp = !this.moveUp;
+            }
+            else if(position.z >= screenBounds &&  this.moveUp === false && this.moveRight === false){
+                this.moveLeft = !this.moveLeft;
+                this.moveDown = !this.moveDown;
+                this.moveRight = !this.moveRight;
+                this.moveUp = !this.moveUp;
+            }
+            else if(position.z <= -screenBounds &&  this.moveDown === false && this.moveLeft === false){
+                this.moveLeft = !this.moveLeft;
+                this.moveDown = !this.moveDown;
+                this.moveRight = !this.moveRight;
+                this.moveUp = !this.moveUp;
             }
         }
-        // });
+       
+        
 
 
 

@@ -39,7 +39,7 @@ export class PlayScene extends Scene {
             if (this.boxUpdate) {
                 this.boxUpdate.update(dt)
             }
-            if (this.camera.camera.getPosition().y < this.CamPosition) {
+            if (this.camera.camera.getPosition().y < this.CamPosition - 0.00001) {    
                 this.camera.camera.setPosition(this.camera.camera.getPosition().x, Math.min(this.camera.camera.getPosition().y + 0.12 * dt, this.CamPosition), this.camera.camera.getPosition().z)
                 this.Background.Background.setPosition( this.Background.Background.getPosition().x,Math.min(this.Background.Background.getPosition().y + 0.12 * dt,this.oldoldbox.box.getLocalScale().y + this.Background.Background.getPosition().y),this.Background.Background.getPosition().z )
             }
@@ -213,7 +213,10 @@ export class PlayScene extends Scene {
             physics.physics(boxFall, 'dynamic');
         }, 120);
         physics.physics(boxStay, 'static');
-
+        // setTimeout(() => {
+        //     this.removeChild(boxFall)
+        //     boxFall.destroy()
+        // }, 1000);
         this.boxLoop = box2;
         this.oldoldbox = boxStay;
         this.oldBox = box2;
@@ -255,9 +258,7 @@ export class PlayScene extends Scene {
         this.box = new Box();
         this.boxUpdate = this.box
         this.change = true;
-        console.log(this.box.getPosition())
         this.box.setPosition(this.box.getPosition().x + this.box.getLocalScale().x * 0.30, this.box.getPosition().y, 0)
-        console.log(this.box.box.getLocalPosition())
         this.addChild(this.box);
 
         this.lct = 0 - this.box.box.getLocalScale().y;

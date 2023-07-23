@@ -52,7 +52,7 @@ export class Game {
         this.app.systems.rigidbody.gravity.set(0, -1.5, 0);
        
         Game.app.mouse.on(pc.EVENT_MOUSEDOWN, this.onMouseDown, this);
-        Game.app.touch.on(pc.EVENT_TOUCHSTART, this.onMouseDown, this);
+        // Game.app.touch.on(pc.EVENT_TOUCHSTART, this.onMouseDown, this);
 
         this.app.on("update", (dt) => this.update(dt));
 
