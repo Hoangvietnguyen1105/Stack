@@ -5,8 +5,8 @@ export class LogicPlayScene {
      * @param {Box} currentBox - Đối tượng box thứ nhất
      * @param {Box} oldBox - Đối tượng box thứ hai
      */
-    static splitPlane(boxStay, boxFall, change, oldBox, oldoldBox, temp2) {
-        this.near = 0.1
+    static splitPlane(boxStay, boxFall, change, oldBox, oldoldBox, temp2,near) {
+        this.near = near
         if (change === true) {
             if (oldBox.box.getPosition().x > oldoldBox.box.getPosition().x + oldoldBox.box.getLocalScale().x * this.near && oldBox.box.getPosition().x < oldoldBox.box.getPosition().x + oldoldBox.box.getLocalScale().x) {
                 boxStay.box.setLocalPosition(((oldoldBox.box.getPosition().x + oldoldBox.box.getLocalScale().x / 2) + (oldBox.box.getPosition().x - oldBox.box.getLocalScale().x / 2)) / 2, temp2 - oldBox.box.getLocalScale().y, oldoldBox.box.getPosition().z)

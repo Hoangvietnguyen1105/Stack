@@ -28,6 +28,18 @@ export class PlayScene extends Scene {
     }
 
     update(dt) {
+
+        if(this.Background && dt){
+            this.Background.update(dt)
+        }
+        if(this.camera && this.boxFalls){
+            for(var i = 0 ; i < this.boxFalls.length;i++){
+                if(this.boxFalls[i].box.getPosition().y < (this.camera.camera.getPosition().y-1.5)){
+                    this.boxFalls[i].destroy()
+                    this.boxFalls.splice(i, 1);
+                }
+            }
+        }
         if (!this.initPoint) {
             if (this.menu) {
                 this.menu.update(dt)
@@ -80,8 +92,9 @@ export class PlayScene extends Scene {
         //point
         this.point = -1
         this.initPoint = true
+        //list of boxStay
+        this.boxFalls = []
 
-        this.test = 1
     }
 
     onMouseDown() {
@@ -112,14 +125,29 @@ export class PlayScene extends Scene {
         var boxStay = new Box();
         var boxFall = new Box();
         // Split box
-        this.gameEnd = LogicPlayScene.splitPlane(
-            boxStay,
-            boxFall,
-            this.change,
-            this.oldBox,
-            this.oldoldbox,
-            this.boxPositAfterClick
-        );
+        if(this.countPerfect >= 2){
+            this.gameEnd = LogicPlayScene.splitPlane(
+                boxStay,
+                boxFall,
+                this.change,
+                this.oldBox,
+                this.oldoldbox,
+                this.boxPositAfterClick,
+                0.05
+            );
+        }
+        else{
+            this.gameEnd = LogicPlayScene.splitPlane(
+                boxStay,
+                boxFall,
+                this.change,
+                this.oldBox,
+                this.oldoldbox,
+                this.boxPositAfterClick,
+                0.1
+            );
+        }
+        
 
         if (this.gameEnd) {
             boxFall = this.oldBox;
@@ -166,7 +194,11 @@ export class PlayScene extends Scene {
         //perfect time
         if (!this.gameEnd) {
             this.addChild(box2);
+            //add boxStay to child and array
             this.addChild(boxStay);
+           
+
+
             if (boxStay.perfect && this.countPerfect >= 0) {
                 if (this.countPerfect < 7)
                     this.countPerfect++
@@ -207,6 +239,7 @@ export class PlayScene extends Scene {
         this.removeChild(this.oldBox);
         
         this.addChild(boxFall);
+        this.boxFalls.push(boxFall)
 
         // Add physics
         setTimeout(() => {
@@ -288,8 +321,7 @@ export class PlayScene extends Scene {
     _initCamera() {
         this.camera = new Camera()
         this.addChild(this.camera.camera);
-        console.log(this.camera.camera.getPosition())
-        console.log(this.camera.camera.getLocalEulerAngles())
+
     }
     _initLight() {
         this.light = new Light()

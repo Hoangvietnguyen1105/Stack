@@ -7,7 +7,12 @@ export const Config = {
         "scaleZ": 0.25
     },
     color1: {
-        "firstColor": '#5adeff'
+        "firstColor": '#5adeff',
+        "backGroundColor1":[3, 252, 173, 3, 202, 252],
+        "backGroundColor2":[252, 144, 3,3, 28, 252],
+        "backGroundColor3":[252, 3, 28,252, 3, 190],
+        "backGroundColor4":[252, 3, 190,3, 252, 173],
+
     },
     color2: {
         "firstColor": '#42f563'
