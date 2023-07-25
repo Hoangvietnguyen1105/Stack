@@ -7,7 +7,7 @@ export class planeBackground extends Entity {
         this.createTexture(3, 252, 173, 3, 202, 252);
         this.startColor =Config.color1.backGroundColor1;
         this.endColor = Config.color1.backGroundColor2;
-        this.colorTransitionSpeed = 2.5;
+        this.colorTransitionSpeed = 0.5;
         this.nextColor = 0
         // this.nex
         this.createMateria();
@@ -71,7 +71,6 @@ export class planeBackground extends Entity {
     }
 
     update(dt) {
-
         const step = this.colorTransitionSpeed * dt;
         for (let i = 0; i < 6; i++) {
             this.startColor[i] = pc.math.lerp(
@@ -99,7 +98,6 @@ export class planeBackground extends Entity {
             Math.abs(this.startColor[3] - this.endColor[3]) <= 0.1 &&
             Math.abs(this.startColor[4] - this.endColor[4]) <= 0.1 &&
             Math.abs(this.startColor[5] - this.endColor[5]) <= 0.1) {
-            console.log(this.nextColor)
             // Quá trình lerp hoàn thành
             this.startColor = Config.color1[`backGroundColor${this.nextColor + 1}`];
             if(this.nextColor  === 3 ){

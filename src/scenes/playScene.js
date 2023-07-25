@@ -16,6 +16,7 @@ import { startMenu } from "../screens/startMenu.js";
 import { beginMenu } from "../screens/beginMenu.js";
 import { Background } from "../object/background.js";
 import { planeBackground } from "../object/planeBackground.js";
+import { calculateColor } from "../logic/Color2.js";
 import { Texture } from "playcanvas";
 export class PlayScene extends Scene {
     constructor() {
@@ -60,6 +61,7 @@ export class PlayScene extends Scene {
     }
 
     _initialize() {
+        this._initColor()
 
         this.Background = new planeBackground()
         this.addChild(this.Background)
@@ -94,10 +96,14 @@ export class PlayScene extends Scene {
         this.initPoint = true
         //list of boxStay
         this.boxFalls = []
-
+        
     }
 
     onMouseDown() {
+        
+        //nâng ánh sáng mỗi  khi click
+        this.light.light.setPosition(this.light.light.getPosition().x,this.light.light.getPosition().y + this.oldBox.box.getLocalScale().y,this.light.light.getPosition().z)
+
         this.sound.stop('gameSound');
 
         
@@ -119,7 +125,11 @@ export class PlayScene extends Scene {
         this.boxUpdate = box2;
         this.CamPosition = this.camera.camera.getPosition().y + box2.box.getLocalScale().y;
         this.boxPositAfterClick += box2.box.getLocalScale().y;
-        const color = new pc.Color().fromString(this.colorHex);
+        // let planeColor = calculateColor.calculateContrastingColor([252, 144, 3],[3, 28, 252])
+        // const color = new pc.Color(planeColor[0]/255,planeColor[1]/255,planeColor[2]/255);
+        console.log( this.step ,
+            this.index )
+        const color = new pc.Color(this.listColor[this.index][0]/255,this.listColor[this.index][1]/255,this.listColor[this.index][2]/255);
         box2.material.diffuse = color;
 
         var boxStay = new Box();
@@ -258,6 +268,18 @@ export class PlayScene extends Scene {
 
         // Đậm dần màu của box2
         this.colorHex = Color._darkerColor(this.colorHex);
+        this.index++
+        if(this.index > 9){
+            this.step ++
+            this.firstColor = Config.color1[`colorStep${this.step + 1}`]
+            if(this.step === 4){
+                this.lastColor = Config.color1[`colorStep1`]
+                this.step = 0
+            }
+            this.lastColor = Config.color1[`colorStep${this.step + 2}`]
+            this.listColor = calculateColor.smoothChangingcolor( this.firstColor,this.lastColor)
+            this.index = 0 
+        }
     }
 
     scaleUp() {
@@ -288,9 +310,14 @@ export class PlayScene extends Scene {
 
 
     _initBox() {
+
+         this.color = new pc.Color(this.listColor[0][0]/255,this.listColor[0][1]/255,this.listColor[0][2]/255);
+
+
         this.box = new Box();
         this.boxUpdate = this.box
         this.change = true;
+        this.box.material.diffuse = this.color
         this.box.setPosition(this.box.getPosition().x + this.box.getLocalScale().x * 0.30, this.box.getPosition().y, 0)
         this.addChild(this.box);
 
@@ -302,7 +329,10 @@ export class PlayScene extends Scene {
             var box3 = new Box();
             this.addChild(box3);
 
-            box3.material.diffuse = new pc.Color().fromString(this.hexColor);
+            const color = new pc.Color(this.listColor[this.index][0]/255,this.listColor[this.index][1]/255,this.listColor[this.index][2]/255);
+            
+
+            box3.material.diffuse =color
             this.hexColor = Color._darkerColor(this.hexColor)
             box3.moveDown = false;
             box3.moveLeft = false;
@@ -316,7 +346,23 @@ export class PlayScene extends Scene {
 
             this.oldoldbox = box3
             physics.physics(box3, 'static')
+            this.index++
+            if(this.index > 9){
+                this.step ++
+                this.firstColor = Config.color1[`colorStep${this.step + 1}`]
+                if(this.step === 3){
+                    this.lastColor = Config.color1[`colorStep1`]
+                    this.step = 0
+                }
+                this.lastColor = Config.color1[`colorStep${this.step + 2}`]
+                this.listColor = calculateColor.smoothChangingcolor( this.firstColor,this.lastColor)
+                this.index = 0 
+            }
         }
+        this.step = 0
+        this.index = 0 
+        this.listColor = calculateColor.smoothChangingcolor(Config.color1[`colorStep${this.step + 1}`],Config.color1[`colorStep${this.step + 2}`])
+
     }
     _initCamera() {
         this.camera = new Camera()
@@ -327,11 +373,17 @@ export class PlayScene extends Scene {
         this.light = new Light()
         this.light.light.setLocalEulerAngles(160.84,15.16, 126.2)
         this.light.light.setLocalPosition(1.467, 2, 0.972);
-        this.light.light.set
         this.addChild(this.light.light);
     }
     _initAudio() {
         Audio._initAudio(this)
+    }
+    _initColor(){
+        //list of color
+        this.step = 0
+        this.index = 0 
+
+        this.listColor = calculateColor.smoothChangingcolor(Config.color1[`colorStep${this.step + 1}`],Config.color1[`colorStep${this.step + 2}`])
     }
 
 

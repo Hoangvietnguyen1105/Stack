@@ -1,4 +1,8 @@
 export class Color {
+    constructor(){
+        this.steps = 5; // Điều chỉnh số bước chuyển đổi tùy ý
+    }
+
     static _darkerColor(hexColor) {
         const colorValue = parseInt(hexColor.substring(1), 16);
         var R = (colorValue >> 16) & 255;
@@ -37,4 +41,13 @@ export class Color {
         }
         
     }
+    static smoothChangingcolor(color1, color2){
+        const colorStep1 = [];
+        for (let i = 0; i < 3; i++) {
+          colorStep1[i] = Math.floor(
+            color1[i] + (color2[i] - color1[i]) / this.steps
+          );
+        }
+        return colorStep1
+      }
 }

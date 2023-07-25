@@ -2,6 +2,7 @@ import { Entity, extend } from "playcanvas";
 import { Game } from "../game";
 import { Config } from "../gameConfig";
 import { Loader } from "../assetLoader/Loader";
+import { calculateColor } from "../logic/Color2";
 
 
 export class Box extends Entity {
@@ -36,7 +37,7 @@ export class Box extends Entity {
         this.material.metalness = 0.4;
         this.material.update();
 
-
+        
     }
 
     update(dt) {
