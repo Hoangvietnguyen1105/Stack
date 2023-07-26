@@ -18,6 +18,8 @@ import { Background } from "../object/background.js";
 import { planeBackground } from "../object/planeBackground.js";
 import { calculateColor } from "../logic/Color2.js";
 import { Texture } from "playcanvas";
+import { effectMap } from "../object/effect/effectMap.js";
+import { _initBox } from "../helper.js";
 export class PlayScene extends Scene {
     constructor() {
         super('PlayScene');
@@ -305,7 +307,11 @@ export class PlayScene extends Scene {
     _initTestEffect() {
         this.testEffect = new TestEffect();
         this.addChild(this.testEffect);
+        this.effectMap = new effectMap()
+        this.addChild(this.effectMap)
+        this.effectMap.play()
     }
+
 
 
 
