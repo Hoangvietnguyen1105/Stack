@@ -7,6 +7,8 @@ export class effectMap extends Entity {
     constructor() {
         super();
         this._initParticle();
+        this.setPosition(-1,1,-1)
+
       }
     
       _initParticle() {
@@ -20,7 +22,7 @@ export class effectMap extends Entity {
           )
         let velocityGraph = new CurveSet([
           [0, 1, 1 , 1],
-          [0, 1, 1 , 1],
+          [0, 0, 1 , 0],
           [0, 1, 1 , 1],
         
         ]);
@@ -49,8 +51,8 @@ export class effectMap extends Entity {
 
         this.particleEntity.addComponent("particlesystem", {
           autoPlay: true,
-          numParticles: 30,
-          lifetime: 5,
+          numParticles: 50,
+          lifetime: 10,
           rate: 0.1,
           rate2: 0.1,
           startAngle: 0,

@@ -19,7 +19,8 @@ import { planeBackground } from "../object/planeBackground.js";
 import { calculateColor } from "../logic/Color2.js";
 import { Texture } from "playcanvas";
 import { effectMap } from "../object/effect/effectMap.js";
-import { _initBox } from "../helper.js";
+import { helper } from "../handleLogic.js/helper.js";
+import { handleMouseDown } from "../handleLogic.js/handleMouseDown.js";
 export class PlayScene extends Scene {
     constructor() {
         super('PlayScene');
@@ -69,7 +70,7 @@ export class PlayScene extends Scene {
         this.addChild(this.Background)
         this._initAudio()
         this._initLight();
-        this._initBox();
+        helper._initBox(this)
         this._initCamera();
         this.update();
         this._initProperty();
@@ -102,186 +103,7 @@ export class PlayScene extends Scene {
     }
 
     onMouseDown() {
-        
-        //nâng ánh sáng mỗi  khi click
-        this.light.light.setPosition(this.light.light.getPosition().x,this.light.light.getPosition().y + this.oldBox.box.getLocalScale().y,this.light.light.getPosition().z)
-
-        this.sound.stop('gameSound');
-
-        
-        if (this.initPoint) {
-            this.removeChild(this.beginMenu)
-            this.beginMenu.destroy()
-            this.menu = new startMenu()
-            this.addChild(this.menu)
-            this.initPoint = false
-        }
-        if (this.gameEnd) {
-            return;
-        }
-
-        const box2 = new Box();
-        box2.speed = this.boxSpeed
-        // increase speed 
-        this.boxSpeed += Config.box['speedup']
-        this.boxUpdate = box2;
-        this.CamPosition = this.camera.camera.getPosition().y + box2.box.getLocalScale().y;
-        this.boxPositAfterClick += box2.box.getLocalScale().y;
-        // let planeColor = calculateColor.calculateContrastingColor([252, 144, 3],[3, 28, 252])
-        // const color = new pc.Color(planeColor[0]/255,planeColor[1]/255,planeColor[2]/255);
-        console.log( this.step ,
-            this.index )
-        const color = new pc.Color(this.listColor[this.index][0]/255,this.listColor[this.index][1]/255,this.listColor[this.index][2]/255);
-        box2.material.diffuse = color;
-
-        var boxStay = new Box();
-        var boxFall = new Box();
-        // Split box
-        if(this.countPerfect >= 2){
-            this.gameEnd = LogicPlayScene.splitPlane(
-                boxStay,
-                boxFall,
-                this.change,
-                this.oldBox,
-                this.oldoldbox,
-                this.boxPositAfterClick,
-                0.05
-            );
-        }
-        else{
-            this.gameEnd = LogicPlayScene.splitPlane(
-                boxStay,
-                boxFall,
-                this.change,
-                this.oldBox,
-                this.oldoldbox,
-                this.boxPositAfterClick,
-                0.1
-            );
-        }
-        
-
-        if (this.gameEnd) {
-            boxFall = this.oldBox;
-            setTimeout(() => {
-                this.menu.gameReplaybutton = true
-                return;
-            }, 1500);
-            this.sound.play('gameOver');
-            setTimeout(function (count) { 
-                this.sound.pause('gameOver');
-            }.bind(this, this.countPerfect), 920);
-
-        }
-
-        if (!this.gameEnd) {
-            this.point++
-            this.menu.point = this.point
-        }
-
-
-
-        if (this.change === true) {
-            box2.box.setLocalScale(boxStay.box.getLocalScale());
-            box2.box.setLocalPosition(
-                boxStay.box.getPosition().x,
-                boxStay.box.getPosition().y + boxStay.box.getLocalScale().y,
-                -0.3
-            );
-            box2.moveLeft = true;
-            box2.moveRight = false;
-        }
-        if (this.change !== true) {
-            box2.box.setLocalScale(boxStay.box.getLocalScale());
-            box2.box.setLocalPosition(
-                -0.3,
-                boxStay.box.getPosition().y + boxStay.box.getLocalScale().y,
-                boxStay.box.getPosition().z
-            );
-        }
-
-        boxStay.material.diffuse = this.oldBox.material.diffuse;
-        boxFall.material.diffuse = this.oldBox.material.diffuse;
-
-        //perfect time
-        if (!this.gameEnd) {
-            this.addChild(box2);
-            //add boxStay to child and array
-            this.addChild(boxStay);
-           
-
-
-            if (boxStay.perfect && this.countPerfect >= 0) {
-                if (this.countPerfect < 7)
-                    this.countPerfect++
-
-                this.sound.play(`perfect${this.countPerfect}`);
-                setTimeout(function (count) {
-                    this.sound.pause(`perfect${count}`);
-                }.bind(this, this.countPerfect), 650);
-                this._initPlane(
-                    boxStay.box.getPosition().x, boxStay.box.getPosition().y, boxStay.box.getPosition().z,
-                    boxStay.box.getLocalScale().x, boxStay.box.getLocalScale().y, boxStay.box.getLocalScale().z
-                )
-                if (this.countPerfect >= 4) {
-                    this._initPlane2(
-                        boxStay.box.getPosition().x, boxStay.box.getPosition().y, boxStay.box.getPosition().z,
-                        Config.box['scaleX'] * 2, 0.1, Config.box['scaleZ'] * 2
-                    )
-                }
-                if (this.countPerfect >= 7) {
-                    this.testEffect.play();
-                    setTimeout(function () {
-                        this.testEffect.stop();
-                    }.bind(this), 2000);
-                    this.boxUp = boxStay
-                    this.countUp = 10
-                }
-
-            }
-            else {
-                this.countPerfect = 0
-                this.sound.play('notPerfect');
-                setTimeout(function (count) {
-                    this.sound.pause('notPerfect');
-                }.bind(this, this.countPerfect), 350);
-            }   
-        }
-
-        this.removeChild(this.oldBox);
-        
-        this.addChild(boxFall);
-        this.boxFalls.push(boxFall)
-
-        // Add physics
-        setTimeout(() => {
-            physics.physics(boxFall, 'dynamic');
-        }, 120);
-        physics.physics(boxStay, 'static');
-        // setTimeout(() => {
-        //     this.removeChild(boxFall)
-        //     boxFall.destroy()
-        // }, 1000);
-        this.boxLoop = box2;
-        this.oldoldbox = boxStay;
-        this.oldBox = box2;
-
-        this.change = !this.change;
-
-        // Đậm dần màu của box2
-        this.colorHex = Color._darkerColor(this.colorHex);
-        this.index++
-        if(this.index > 9){
-            this.step ++
-            this.firstColor = Config.color1[`colorStep${this.step + 1}`]
-            if(this.step === 4){
-                this.lastColor = Config.color1[`colorStep1`]
-                this.step = 0
-            }
-            this.lastColor = Config.color1[`colorStep${this.step + 2}`]
-            this.listColor = calculateColor.smoothChangingcolor( this.firstColor,this.lastColor)
-            this.index = 0 
-        }
+       handleMouseDown.mouseDown(this)
     }
 
     scaleUp() {
@@ -312,64 +134,6 @@ export class PlayScene extends Scene {
         this.effectMap.play()
     }
 
-
-
-
-    _initBox() {
-
-         this.color = new pc.Color(this.listColor[0][0]/255,this.listColor[0][1]/255,this.listColor[0][2]/255);
-
-
-        this.box = new Box();
-        this.boxUpdate = this.box
-        this.change = true;
-        this.box.material.diffuse = this.color
-        this.box.setPosition(this.box.getPosition().x + this.box.getLocalScale().x * 0.30, this.box.getPosition().y, 0)
-        this.addChild(this.box);
-
-        this.lct = 0 - this.box.box.getLocalScale().y;
-        this.hexColor = Config.color1['firstColor'];
-        this.colorStep = -30;
-
-        for (var i = 0; i < 30; i++) {
-            var box3 = new Box();
-            this.addChild(box3);
-
-            const color = new pc.Color(this.listColor[this.index][0]/255,this.listColor[this.index][1]/255,this.listColor[this.index][2]/255);
-            
-
-            box3.material.diffuse =color
-            this.hexColor = Color._darkerColor(this.hexColor)
-            box3.moveDown = false;
-            box3.moveLeft = false;
-            box3.moveUp = false;
-            box3.moveRight = false;
-
-            box3.setLocalPosition(box3.box.getLocalScale().x + box3.box.getLocalScale().x * 0.20, this.lct, 0);
-            this.lct -= box3.box.getLocalScale().y;
-
-            // Giảm giá trị màu theo colorStep
-
-            this.oldoldbox = box3
-            physics.physics(box3, 'static')
-            this.index++
-            if(this.index > 9){
-                this.step ++
-                this.firstColor = Config.color1[`colorStep${this.step + 1}`]
-                if(this.step === 3){
-                    this.lastColor = Config.color1[`colorStep1`]
-                    this.step = 0
-                }
-                this.lastColor = Config.color1[`colorStep${this.step + 2}`]
-                this.listColor = calculateColor.smoothChangingcolor( this.firstColor,this.lastColor)
-                this.index = 0 
-            }
-        }
-        this.step = 0
-        this.index = 0 
-        this.listColor = calculateColor.smoothChangingcolor(Config.color1[`colorStep${this.step + 1}`],Config.color1[`colorStep${this.step + 2}`])
-
-    }
     _initCamera() {
         this.camera = new Camera()
         this.addChild(this.camera.camera);
