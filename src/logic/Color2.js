@@ -17,7 +17,7 @@
 
 
     static smoothChangingcolor(color1, color2) {
-      const steps = 10
+      const steps = 7
       const colorStepArray = [];
       for (let step = 0; step < steps; step++) {
         const colorStep = [];

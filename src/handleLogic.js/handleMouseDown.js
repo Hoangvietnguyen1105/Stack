@@ -177,7 +177,7 @@ export class handleMouseDown{
         // Đậm dần màu của box2
         obj.colorHex = Color._darkerColor(obj.colorHex);
         obj.index++
-        if(obj.index > 9){
+        if(obj.index > 6){
             obj.step ++
             obj.firstColor = Config.color1[`colorStep${obj.step + 1}`]
             if(obj.step === 4){

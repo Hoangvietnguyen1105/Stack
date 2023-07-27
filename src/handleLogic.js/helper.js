@@ -41,7 +41,7 @@ export class helper{
            obj.oldoldbox = box3
            physics.physics(box3, 'static')
            obj.index++
-           if(obj.index > 9){
+           if(obj.index > 6){
                obj.step ++
                obj.firstColor = Config.color1[`colorStep${obj.step + 1}`]
                if(obj.step === 3){

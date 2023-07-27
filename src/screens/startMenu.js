@@ -74,7 +74,7 @@ export class startMenu extends Entity {
         this.textDropShadow.addComponent("element", {
             pivot: new pc.Vec2(0.5, 0.5),
             anchor: new pc.Vec4(0.5, 0.95, 0.5, 0.5),
-            fontAsset: Loader.getAssetByKey('font'),
+            fontAsset:  Loader.getAssetByKey('CanvasFont'),
             fontSize: 200,
             text: this.point,
             shadowColor: new pc.Color(1, 0, 0),
@@ -85,7 +85,9 @@ export class startMenu extends Entity {
 
     }
     update(dt) {
+        
         this.textDropShadow.element.text = this.point
+       
         if (this.gameReplaybutton)
             this.screen.addChild(this.button)
     }

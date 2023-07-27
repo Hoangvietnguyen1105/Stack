@@ -27,7 +27,7 @@ export class PlayScene extends Scene {
     }
 
     update(dt) {
-
+        
         if(this.Background && dt){
             this.Background.update(dt)
         }
@@ -43,6 +43,7 @@ export class PlayScene extends Scene {
             if (this.menu) {
                 this.menu.update(dt)
             }
+            
             if (this.countUp > 0) {
                 this.scaleUp()
                 this.countUp--;
@@ -53,6 +54,11 @@ export class PlayScene extends Scene {
             if (this.camera.camera.getPosition().y < this.CamPosition - 0.00001) {    
                 this.camera.camera.setPosition(this.camera.camera.getPosition().x, Math.min(this.camera.camera.getPosition().y + 0.12 * dt, this.CamPosition), this.camera.camera.getPosition().z)
                 this.Background.Background.setPosition( this.Background.Background.getPosition().x,Math.min(this.Background.Background.getPosition().y + 0.12 * dt,this.oldoldbox.box.getLocalScale().y + this.Background.Background.getPosition().y),this.Background.Background.getPosition().z )
+            }
+        }
+        else{
+            if(this.beginMenu){
+                this.beginMenu.update(dt)
             }
         }
 

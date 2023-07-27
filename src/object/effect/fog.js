@@ -50,7 +50,7 @@ export class fog extends Entity {
 
         this.particleEntity.addComponent("particlesystem", {
           autoPlay: true,
-          numParticles: 2,
+          numParticles: 3,
           lifetime: 1000,
           rate: 0   ,
           rate2: 0,
