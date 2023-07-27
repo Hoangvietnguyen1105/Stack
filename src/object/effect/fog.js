@@ -3,12 +3,11 @@ import { Loader } from "../../assetLoader/Loader";
 import { CurveSet } from "playcanvas";
 import { Curve } from "playcanvas";
 
-export class effectMap extends Entity {
+export class fog extends Entity {
     constructor() {
         super();
         this._initParticle();
-        this.setPosition(-1,1,-1)
-
+        this.setPosition(0,0.1,0)
       }
     
       _initParticle() {
@@ -21,19 +20,19 @@ export class effectMap extends Entity {
           [1,0]
           )
         let velocityGraph = new CurveSet([
-          [0, 1, 1 , 1],
-          [0, 0, 1 , 0],
-          [0, 1, 1 , 1],
+          [0, 0, 0 , 0],
+          [0, 0, 0 , 0],
+          [0, 0, 0 , 0],
         
         ]);
     
         let velocityGraph2 = new CurveSet([
-          [0,-1, 1 ,-1],
-          [0,-1, 1 ,-1],
-          [0,-1, 1 ,-1],
+          [0,0, 0 ,0],
+          [0,0, 0 ,0],
+          [0,0, 0 ,0],
         ]);
         let scaleGraph = new Curve([
-          0, 0.1,          
+          0, 1,          
         ]);
         let colorGraph = new CurveSet([
           [0, 255 / 255, 0.5, 52 / 255, 1, 209 / 255],
@@ -51,10 +50,10 @@ export class effectMap extends Entity {
 
         this.particleEntity.addComponent("particlesystem", {
           autoPlay: true,
-          numParticles: 50,
-          lifetime: 20,
-          rate: 0.1,
-          rate2: 0.1,
+          numParticles: 2,
+          lifetime: 1000,
+          rate: 0   ,
+          rate2: 0,
           startAngle: 0,
           startAngle: 0,
           loop: true,
@@ -75,7 +74,7 @@ export class effectMap extends Entity {
           scaleGraph:scaleGraph,
           localVelocityGraph:localVelocityGraph,
         });
-        this.particleEntity.setLocalScale(0.2, 0.2, 0.2);
+        this.particleEntity.setLocalScale(3, 0.2, 3);
       }
     
       play() {

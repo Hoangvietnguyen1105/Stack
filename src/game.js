@@ -84,9 +84,15 @@ export class Game {
       //  this.app.scene.skybox = skyboxMaterial;
     }
 
+     
+      
+
 
 }
 
 window.onload = () => {
     Game.init()
 };
+window.addEventListener("resize", (event) => {
+    Game.resize({ width: window.innerWidth, height: window.innerHeight})
+  });

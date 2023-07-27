@@ -13,8 +13,14 @@ export class Loader {
                 new pc.Asset("image1", "texture", {
                     url: 'assets/sprites/spr_building_1.png',
                 }),
+                new pc.Asset("clound", "texture", {
+                    url: 'assets/sprites/clouds.jpg',
+                }),
                 new pc.Asset("replay", "texture", {
                     url: 'assets/sprites/replay.png',
+                }),
+                new pc.Asset("ice", "texture", {
+                    url: 'assets/sprites/ice.png',
                 }),
                 new pc.Asset("gradient", "texture", {
                     url: 'assets/sprites/gradient.png',

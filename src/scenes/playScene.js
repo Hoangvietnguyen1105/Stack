@@ -2,25 +2,20 @@ import { Scene } from "../scene/scene.js";
 import { Game } from "../game";
 import { Light } from "../object/Light.js";
 import { Camera } from "../object/Camera.js";
-import { Box } from "../object/box.js";
-import { LogicPlayScene } from "../logic/splitBox.js";
-import { Loader } from "../assetLoader/Loader.js";
-import { Color } from "../logic/randomColor.js";
+
 import { Config } from "../gameConfig.js";
 import { Plane } from "../object/plane.js";
 import { Plane2 } from "../object/plane2.js";
 import { TestEffect } from "../object/effect/testEffect.js";
 import { Audio } from "../object/audio.js";
-import { physics } from "../object/physics.js";
-import { startMenu } from "../screens/startMenu.js";
+
 import { beginMenu } from "../screens/beginMenu.js";
-import { Background } from "../object/background.js";
 import { planeBackground } from "../object/planeBackground.js";
 import { calculateColor } from "../logic/Color2.js";
-import { Texture } from "playcanvas";
 import { effectMap } from "../object/effect/effectMap.js";
 import { helper } from "../handleLogic.js/helper.js";
 import { handleMouseDown } from "../handleLogic.js/handleMouseDown.js";
+import { fog } from "../object/effect/fog.js";
 export class PlayScene extends Scene {
     constructor() {
         super('PlayScene');
@@ -78,6 +73,7 @@ export class PlayScene extends Scene {
         this.beginMenu = new beginMenu()
         this.addChild(this.beginMenu)
         this.sound.play('gameSound');
+        this._initFog()
     }
     _initProperty() {
         this.boxUpdate = this.box
@@ -154,6 +150,10 @@ export class PlayScene extends Scene {
         this.index = 0 
 
         this.listColor = calculateColor.smoothChangingcolor(Config.color1[`colorStep${this.step + 1}`],Config.color1[`colorStep${this.step + 2}`])
+    }
+    _initFog(){
+        this.fog = new fog()
+        this.addChild(this.fog)
     }
 
 

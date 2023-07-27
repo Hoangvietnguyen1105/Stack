@@ -1,61 +1,82 @@
-export const  FILES = {
-    'shader.vert': /* glsl */`
-/**
-* Simple Screen-Space Vertex Shader with one UV coordinate.
-* This shader is useful for simple UI shaders.
-* 
-* Usage: the following attributes must be configured when creating a new pc.Shader:
-*   vertex_position: pc.SEMANTIC_POSITION
-*   vertex_texCoord0: pc.SEMANTIC_TEXCOORD0
-*/
+export const FILES = {
+    'shader.vert': /* glsl */ `
+        attribute vec3 vertex_position;
+        attribute vec2 vertex_texCoord0;
 
-// Default PlayCanvas uniforms
-uniform mat4 matrix_viewProjection;
-uniform mat4 matrix_model;
+        uniform mat4 matrix_model;
+        uniform mat4 matrix_viewProjection;
+        uniform float uTime;
+        uniform sampler2D uTexture;
 
-// Additional inputs
-attribute vec3 vertex_position;
-attribute vec2 vertex_texCoord0;
+        varying vec2 texCoord0;
+        varying vec2 texCoord1;
+        varying vec2 texCoord2;
+        varying vec4 screenPos;
+        varying float depth;
 
-// Additional shader outputs
-varying vec2 vUv0;
+        void main(void)
+        {
+            // 3 scrolling texture coordinates with different direction and speed
+            texCoord0 = vertex_texCoord0 * 2.0 + vec2(uTime * 0.003, uTime * 0.01);
+            texCoord1 = vertex_texCoord0 * 1.5 + vec2(uTime * -0.02, uTime * 0.02);
+            texCoord2 = vertex_texCoord0 * 1.0 + vec2(uTime * 0.01, uTime * -0.003);
 
-void main(void) {
-// UV is simply passed along as varying
-vUv0 = vertex_texCoord0;
+            // sample the fog texture to have elevation for this vertex
+            vec2 offsetTexCoord = vertex_texCoord0 + vec2(uTime * 0.001, uTime * -0.0003);
+            float offset = texture2D(uTexture, offsetTexCoord).r;
 
-// Position for screen-space
-gl_Position = matrix_model * vec4(vertex_position, 1.0);
-gl_Position.zw = vec2(0.0, 1.0);
-}`,
-    'shader.frag': /* glsl */`
-/**
-* Simple Color-Inverse Fragment Shader with intensity control.
-* 
-* Usage: the following parameters must be set:
-*   uDiffuseMap: image texture.
-*   amount: float that controls the amount of the inverse-color effect. 0 means none (normal color), while 1 means full inverse.
-*
-* Additionally, the Vertex shader that is paired with this Fragment shader must specify:
-*   varying vec2 vUv0: for the UV.
-*/
+            // vertex in the world space
+            vec4 pos = matrix_model * vec4(vertex_position, 1.0);
 
-// The following line is for setting the shader precision for floats. It is commented out because, ideally, it must be configured
-// on a per-device basis before loading the Shader. Please check the accompanying TypeScript code and look for 'app.graphicsDevice.precision'.
+            // move it up based on the offset
+            pos.y += offset * 25.0;
 
-// precision mediump float;
+            // position in projected (screen) space
+            vec4 projPos = matrix_viewProjection * pos;
+            gl_Position = projPos;
 
-// Additional varying from vertex shader
-varying vec2 vUv0;
+            // the linear depth of the vertex (in camera space)
+            depth = getLinearDepth(pos.xyz);
 
-// Custom Parameters (must be set from code via material.setParameter())
-uniform sampler2D uDiffuseMap;
-uniform float amount;
+            // screen fragment position, used to sample the depth texture
+            screenPos = projPos;
+        }
+    `,
+    'shader.frag': /* glsl */ `
+        uniform sampler2D uTexture;
+        uniform float uSoftening;
 
-void main(void)
-{
-vec4 color = texture2D(uDiffuseMap, vUv0);
-vec3 roloc = 1.0 - color.rgb;
-gl_FragColor = vec4(mix(color.rgb, roloc, amount), color.a);
-}`
+        varying vec2 texCoord0;
+        varying vec2 texCoord1;
+        varying vec2 texCoord2;
+        varying vec4 screenPos;
+        varying float depth;
+        
+        void main(void)
+        {
+            // sample the texture 3 times and compute average intensity of the fog
+            vec4 diffusTexture0 = texture2D (uTexture, texCoord0);
+            vec4 diffusTexture1 = texture2D (uTexture, texCoord1);
+            vec4 diffusTexture2 = texture2D (uTexture, texCoord2);
+            float alpha = 0.5 * (diffusTexture0.r + diffusTexture1.r + diffusTexture2.r);
+
+            // use built-in getGrabScreenPos function to convert screen position to grab texture uv coords
+            vec2 screenCoord = getGrabScreenPos(screenPos);
+
+            // read the depth from the depth buffer
+            float sceneDepth = getLinearScreenDepth(screenCoord) * camera_params.x;
+
+            // depth of the current fragment (on the fog plane)
+            float fragmentDepth = depth * camera_params.x;
+
+            // difference between these two depths is used to adjust the alpha, to fade out
+            // the fog near the geometry
+            float depthDiff = clamp(abs(fragmentDepth - sceneDepth) * uSoftening, 0.0, 1.0);
+            alpha *= smoothstep(0.0, 1.0, depthDiff);
+
+            // final color
+            vec3 fogColor = vec3(1.0, 1.0, 1.0);
+            gl_FragColor = vec4(fogColor, alpha);
+        }
+    `
 };
