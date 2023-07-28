@@ -188,5 +188,9 @@ export class handleMouseDown{
             obj.listColor = calculateColor.smoothChangingcolor( obj.firstColor,obj.lastColor)
             obj.index = 0 
         }
+
+        box2.setUniform();
+        boxStay.setUniform();
+        boxFall.setUniform();
     }   
 }
