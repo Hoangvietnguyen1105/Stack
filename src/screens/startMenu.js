@@ -34,13 +34,13 @@ export class startMenu extends Entity {
 
         this.button.addComponent("element", {
             anchor: [0.5, 0.5, 0.5, 0.5],
-            height: 40,
+            height: 100,
             pivot: [0.5, 0.5],
             color: [1, 1, 1],
             opacity: 1,
             rect: [0, 0, 1, 1],
             textureAsset: texture,
-            fitMode: 'Strech',
+            fitMode: 'Auto',
             type: pc.ELEMENTTYPE_IMAGE,
             width: 175,
             useInput: true,
@@ -56,7 +56,6 @@ export class startMenu extends Entity {
             height: 64,
             pivot: [0.5, 0.5],
             textureAsset: texture,
-            text: 'replay',
             type: "text",
             width: 128,
             wrapLines: true,
@@ -73,9 +72,9 @@ export class startMenu extends Entity {
         this.textDropShadow = new pc.Entity();
         this.textDropShadow.addComponent("element", {
             pivot: new pc.Vec2(0.5, 0.5),
-            anchor: new pc.Vec4(0.5, 0.95, 0.5, 0.5),
+            anchor: new pc.Vec4(0.5, 1.2, 0.5, 0.5),
             fontAsset:  Loader.getAssetByKey('CanvasFont'),
-            fontSize: 200,
+            fontSize: 150,
             text: this.point,
             shadowColor: new pc.Color(1, 0, 0),
             shadowOffset: new pc.Vec2(0.25, -0.25),

@@ -17,7 +17,7 @@ export class helper{
        obj.addChild(obj.box);
     
        obj.lct = 0 - obj.box.box.getLocalScale().y;
-       obj.hexColor = Config.color1['firstColor'];
+       obj.hexColor = Config[obj.colorI]['firstColor'];
        obj.colorStep = -30;
     
        for (var i = 0; i < 30; i++) {
@@ -43,19 +43,19 @@ export class helper{
            obj.index++
            if(obj.index > 6){
                obj.step ++
-               obj.firstColor = Config.color1[`colorStep${obj.step + 1}`]
+               obj.firstColor = Config[obj.colorI][`colorStep${obj.step + 1}`]
                if(obj.step === 3){
-                   obj.lastColor = Config.color1[`colorStep1`]
+                   obj.lastColor = Config[obj.colorI][`colorStep1`]
                    obj.step = 0
                }
-               obj.lastColor = Config.color1[`colorStep${obj.step + 2}`]
+               obj.lastColor = Config[obj.colorI][`colorStep${obj.step + 2}`]
                obj.listColor = calculateColor.smoothChangingcolor( obj.firstColor,obj.lastColor)
                obj.index = 0 
            }
        }
        obj.step = 0
        obj.index = 0 
-       obj.listColor = calculateColor.smoothChangingcolor(Config.color1[`colorStep${obj.step + 1}`],Config.color1[`colorStep${obj.step + 2}`])
+       obj.listColor = calculateColor.smoothChangingcolor(Config[obj.colorI][`colorStep${obj.step + 1}`],Config[obj.colorI][`colorStep${obj.step + 2}`])
     
     }
 }

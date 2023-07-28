@@ -19,6 +19,8 @@ import { fog } from "../object/effect/fog.js";
 export class PlayScene extends Scene {
     constructor() {
         super('PlayScene');
+        this.i = Math.floor(Math.random() * 4) + 1;
+        this.colorI = `color${this.i}`
     }
 
     create() {
@@ -36,6 +38,14 @@ export class PlayScene extends Scene {
                 if(this.boxFalls[i].box.getPosition().y < (this.camera.camera.getPosition().y-1.5)){
                     this.boxFalls[i].destroy()
                     this.boxFalls.splice(i, 1);
+                }
+            }
+        }
+        if(this.camera && this.boxStays){
+            for(var i = 0 ; i < this.boxStays.length;i++){
+                if(this.boxStays[i].box.getPosition().y < (this.camera.camera.getPosition().y-1.7)){
+                    this.boxStays[i].destroy()
+                    this.boxStays.splice(i, 1);
                 }
             }
         }
@@ -67,7 +77,7 @@ export class PlayScene extends Scene {
     _initialize() {
         this._initColor()
 
-        this.Background = new planeBackground()
+        this.Background = new planeBackground(this.i)
         this.addChild(this.Background)
         this._initAudio()
         this._initLight();
@@ -90,7 +100,7 @@ export class PlayScene extends Scene {
         // define when game end or not
         this.gameEnd = false
         // default colorHex
-        this.colorHex = Config.color1['firstColor']
+        this.colorHex = Config[this.colorI]['firstColor']
         // count when perfect an up scale for box
         this.countUp = 0
         this.countPerfect = -1
@@ -101,6 +111,7 @@ export class PlayScene extends Scene {
         this.initPoint = true
         //list of boxStay
         this.boxFalls = []
+        this.boxStays = []
         
     }
 
@@ -155,10 +166,10 @@ export class PlayScene extends Scene {
         this.step = 0
         this.index = 0 
 
-        this.listColor = calculateColor.smoothChangingcolor(Config.color1[`colorStep${this.step + 1}`],Config.color1[`colorStep${this.step + 2}`])
+        this.listColor = calculateColor.smoothChangingcolor(Config[this.colorI][`colorStep${this.step + 1}`],Config[this.colorI][`colorStep${this.step + 2}`])
     }
     _initFog(){
-        this.fog = new fog()
+        this.fog = new fog(this.i)
         this.addChild(this.fog)
     }
 

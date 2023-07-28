@@ -2,11 +2,12 @@ import { Entity } from "playcanvas";
 import { Game } from "../game";
 import { Config } from "../gameConfig";
 export class planeBackground extends Entity {
-    constructor() {
+    constructor(i) {
         super();
+        this.colorI = `color${i}`
         this.createTexture(3, 252, 173, 3, 202, 252);
-        this.startColor =Config.color1.backGroundColor1;
-        this.endColor = Config.color1.backGroundColor2;
+        this.startColor =Config[this.colorI].backGroundColor1;
+        this.endColor = Config[this.colorI].backGroundColor2;
         this.colorTransitionSpeed = 0.5;
         this.nextColor = 0
         // this.nex
@@ -99,11 +100,11 @@ export class planeBackground extends Entity {
             Math.abs(this.startColor[4] - this.endColor[4]) <= 0.1 &&
             Math.abs(this.startColor[5] - this.endColor[5]) <= 0.1) {
             // Quá trình lerp hoàn thành
-            this.startColor = Config.color1[`backGroundColor${this.nextColor + 1}`];
+            this.startColor = Config[this.colorI][`backGroundColor${this.nextColor + 1}`];
             if(this.nextColor  === 3 ){
                 this.nextColor = 0 
             }
-            this.endColor =  Config.color1[`backGroundColor${this.nextColor + 2}`];
+            this.endColor =  Config[this.colorI][`backGroundColor${this.nextColor + 2}`];
             this.nextColor++
             
         }

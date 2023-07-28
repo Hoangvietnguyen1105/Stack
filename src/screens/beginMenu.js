@@ -32,12 +32,12 @@ export class beginMenu extends Entity {
             pivot: new pc.Vec2(0.5, 0.5),
             anchor: new pc.Vec4(0.5, 0.5, 0.5, 0.5),
             fontAsset: Loader.getAssetByKey('CanvasFont'),
-            fontSize: 200,
+            fontSize: 180,
             text: "Stack",
             shadowColor: new pc.Color(1, 0, 0),
             shadowOffset: new pc.Vec2(0.25, -0.25),
             type: pc.ELEMENTTYPE_TEXT,
-            color: new pc.Color(255/255, 0/255, 64/255)
+            color: new pc.Color(1, 1, 1)
         });
         this.textDropShadow.setLocalPosition(0, 200, 0)
 
@@ -49,12 +49,13 @@ export class beginMenu extends Entity {
             pivot: new pc.Vec2(0.5, 0.5),
             anchor: new pc.Vec4(0.5, 0.5, 0.5, 0.5),
             fontAsset: Loader.getAssetByKey('CanvasFont'),
-            fontSize: 100,
+            fontSize: 90,
             text: "Tap to play",
             shadowColor: new pc.Color(1, 0, 0),
             shadowOffset: new pc.Vec2(0.25, -0.25),
             type: pc.ELEMENTTYPE_TEXT,
-            color: new pc.Color(1, 0, 0)
+            color: new pc.Color(1, 1, 1),
+            opacity:0.3
         });
         this.intro.setLocalPosition(0, -250, 0)
         this.introColor = 'red'    
@@ -94,16 +95,15 @@ export class beginMenu extends Entity {
     }
     update(dt) {
         if(this.changeColorTime < 0){
-            if(this.introColor === 'red'){
-                this.intro.element.color =  new pc.Color(5/255, 189/255, 250/255) 
-                this.introColor = 'blue'
+            if(this.intro.element.opacity === 0.3){
+                this.intro.element.opacity = 1            
             }
             else{
-                this.intro.element.color =  new pc.Color(1,0,0) 
-                this.introColor = 'red'
-    
+                this.intro.element.opacity = 0.3            
+
+                
             }
-            this.changeColorTime = 0.5
+            this.changeColorTime = 0.8
         }
         else{
             this.changeColorTime -= dt

@@ -55,7 +55,7 @@ export class Plane extends Entity {
     }
     update(dt) {
         if (this.material.opacity > 0) {
-            this.material.opacity -= 0.020
+            this.material.opacity -= 0.015
             this.material.update()
         }
     }

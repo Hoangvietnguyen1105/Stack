@@ -8,7 +8,6 @@ import { Color } from "../logic/randomColor";
 export class handleMouseDown{
     static mouseDown(obj){
         obj.effectMap.setPosition(-1,obj.effectMap.getPosition().y + obj.oldBox.box.getLocalScale().y,-1)
-         console.log(obj.effectMap.getPosition())
         //nâng ánh sáng mỗi  khi click
         obj.light.light.setPosition(obj.light.light.getPosition().x,obj.light.light.getPosition().y + obj.oldBox.box.getLocalScale().y,obj.light.light.getPosition().z)
 
@@ -35,8 +34,7 @@ export class handleMouseDown{
         obj.boxPositAfterClick += box2.box.getLocalScale().y;
         // let planeColor = calculateColor.calculateContrastingColor([252, 144, 3],[3, 28, 252])
         // const color = new pc.Color(planeColor[0]/255,planeColor[1]/255,planeColor[2]/255);
-        console.log( obj.step ,
-            obj.index )
+      
         const color = new pc.Color(obj.listColor[obj.index][0]/255,obj.listColor[obj.index][1]/255,obj.listColor[obj.index][2]/255);
         box2.material.diffuse = color;
 
@@ -114,8 +112,7 @@ export class handleMouseDown{
             obj.addChild(box2);
             //add boxStay to child and array
             obj.addChild(boxStay);
-           
-
+            obj.boxStays.push(boxStay)
 
             if (boxStay.perfect && obj.countPerfect >= 0) {
                 if (obj.countPerfect < 7)
@@ -179,12 +176,12 @@ export class handleMouseDown{
         obj.index++
         if(obj.index > 6){
             obj.step ++
-            obj.firstColor = Config.color1[`colorStep${obj.step + 1}`]
+            obj.firstColor = Config[obj.colorI][`colorStep${obj.step + 1}`]
             if(obj.step === 4){
-                obj.lastColor = Config.color1[`colorStep1`]
+                obj.lastColor = Config[obj.colorI][`colorStep1`]
                 obj.step = 0
             }
-            obj.lastColor = Config.color1[`colorStep${obj.step + 2}`]
+            obj.lastColor = Config[obj.colorI][`colorStep${obj.step + 2}`]
             obj.listColor = calculateColor.smoothChangingcolor( obj.firstColor,obj.lastColor)
             obj.index = 0 
         }

@@ -49,6 +49,8 @@ export class effectMap extends Entity {
         let emitterExtends =  new pc.Vec3(1,5,1)
         let emitterExtendsInner =  new pc.Vec3(0,0,0)
 
+        
+
         this.particleEntity.addComponent("particlesystem", {
           autoPlay: true,
           numParticles: 50,

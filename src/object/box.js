@@ -19,7 +19,6 @@ export class Box extends Entity {
         this.box.setLocalPosition(-0.3, 0.5, 0)
         this.addChild(this.box)
 
-
         this.moveLeft = false
         this.moveDown = true
         this.moveRight = true
@@ -37,7 +36,6 @@ export class Box extends Entity {
         this.material.metalness = 0.4;
         this.material.update();
 
-        
     }
 
     update(dt) {
