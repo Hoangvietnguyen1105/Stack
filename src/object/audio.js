@@ -8,7 +8,7 @@ export class Audio {
         obj.sound.addSlot("perfect1", {
             asset: perfect1,
             pitch: 1.7,
-            loop: true,
+            loop: false,
             autoPlay: false,
         });
 
@@ -16,7 +16,7 @@ export class Audio {
         obj.sound.addSlot("perfect2", {
             asset: perfect2,
             pitch: 1.7,
-            loop: true,
+            loop: false,
             autoPlay: false,
         });
 
@@ -24,7 +24,7 @@ export class Audio {
         obj.sound.addSlot("perfect3", {
             asset: perfect3,
             pitch: 1.7,
-            loop: true,
+            loop: false,
             autoPlay: false,
         });
 
@@ -32,7 +32,7 @@ export class Audio {
         obj.sound.addSlot("perfect4", {
             asset: perfect4,
             pitch: 1.7,
-            loop: true,
+            loop: false,
             autoPlay: false,
         });
 
@@ -40,7 +40,7 @@ export class Audio {
         obj.sound.addSlot("perfect5", {
             asset: perfect5,
             pitch: 1.7,
-            loop: true,
+            loop: false,
             autoPlay: false,
         });
 
@@ -48,7 +48,7 @@ export class Audio {
         obj.sound.addSlot("perfect6", {
             asset: perfect6,
             pitch: 1.7,
-            loop: true,
+            loop: false,
             autoPlay: false,
         });
 
@@ -56,7 +56,7 @@ export class Audio {
         obj.sound.addSlot("perfect7", {
             asset: perfect7,
             pitch: 1.7,
-            loop: true,
+            loop: false,
             autoPlay: false,
         });
         const gameSound = Loader.getAssetByKey('gameSound');
@@ -70,14 +70,14 @@ export class Audio {
         obj.sound.addSlot("notPerfect", {
             asset: notPerfect,
             pitch: 1.7,
-            loop: true,
+            loop: false,
             autoPlay: false,
         });
         const gameOver = Loader.getAssetByKey('gameOver');
         obj.sound.addSlot("gameOver", {
             asset: gameOver,
             pitch: 1.7,
-            loop: true,
+            loop: false,
             autoPlay: false,
         });
     }

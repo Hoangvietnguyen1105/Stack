@@ -82,19 +82,19 @@ export class StartScene extends Scene {
 
 
         // Create a label for the button
-        // const label = new pc.Entity();
-        // label.addComponent("element", {
-        //     anchor: [0.5, 0.5, 0.5, 0.5],
-        //     color: new pc.Color(0, 0, 0),
-        //     fontAsset: Loader.getAssetByKey('font'),
-        //     fontSize: 32,
-        //     height: 64,
-        //     pivot: [0.5, 0.5],
-        //     text: "Play again",
-        //     type: pc.ELEMENTTYPE_TEXT,
-        //     width: 128,
-        //     wrapLines: true,
-        // });
+        const label = new pc.Entity();
+        label.addComponent("element", {
+            anchor: [0.5, 0.5, 0.5, 0.5],
+            color: new pc.Color(0, 0, 0),
+            fontAsset: Loader.getAssetByKey('font'),
+            fontSize: 32,
+            height: 64,
+            pivot: [0.5, 0.5],
+            text: "Play again",
+            type: pc.ELEMENTTYPE_TEXT,
+            width: 128,
+            wrapLines: true,
+        });
 
         this.button.addChild(label);
         this.button.button.on("click", function () {

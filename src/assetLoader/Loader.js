@@ -47,10 +47,13 @@ export class Loader {
                     url: 'assets/sprites/spr_building_2.png'
                 }),
                 new pc.Asset("font", "font", {
-                    url: "assets/sprites/fonts/courier.json",
+                    url: "assets/sprites/fonts/THEBOLDFONT.json",
                 }),
                 new pc.Asset("perfect", "texture", {
                     url: "assets/sprites/tex_rectangle.png",
+                }),
+                new pc.Asset("perfect123", "texture", {
+                    url: "assets/sprites/spr_stroke.png",
                 }),
                 new pc.Asset("perfectAudio1", "audio", {
                     url: "assets/sprites/audio/do.mp3"
@@ -72,7 +75,8 @@ export class Loader {
                 }),
                 new pc.Asset("perfectAudio7", "audio", {
                     url: "assets/sprites/audio/si.mp3"
-                })
+                }),
+              
             ];
 
             const assetListLoader = new pc.AssetListLoader(assets, this.app.assets);
@@ -108,4 +112,5 @@ export class Loader {
         this.assets.push(fontAsset);
         return fontAsset;
     }
+    
 }

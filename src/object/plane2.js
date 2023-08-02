@@ -66,7 +66,7 @@ export class Plane2 extends Entity {
     }
     update(dt) {
         if (this.material.opacity > 0) {
-            this.material.opacity -= 0.020
+            this.material.opacity -= 0.030
             this.material.update()
         }
         this.plane.setLocalScale(this.plane.getLocalScale().x + this.plane.getLocalScale().x * 0.2 * dt, this.plane.getLocalScale().y, this.plane.getLocalScale().z + this.plane.getLocalScale().z * 0.2 * dt)

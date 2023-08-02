@@ -119,9 +119,9 @@ export class handleMouseDown{
                     obj.countPerfect++
 
                 obj.sound.play(`perfect${obj.countPerfect}`);
-                setTimeout(function (count) {
-                    obj.sound.pause(`perfect${count}`);
-                }.bind(obj, obj.countPerfect), 650);
+                // setTimeout(function (count) {
+                //     obj.sound.pause(`perfect${count}`);
+                // }.bind(obj, obj.countPerfect), 650);
                 obj._initPlane(
                     boxStay.box.getPosition().x, boxStay.box.getPosition().y, boxStay.box.getPosition().z,
                     boxStay.box.getLocalScale().x, boxStay.box.getLocalScale().y, boxStay.box.getLocalScale().z
@@ -133,10 +133,10 @@ export class handleMouseDown{
                     )
                 }
                 if (obj.countPerfect >= 7) {
-                    obj.testEffect.play();
-                    setTimeout(function () {
-                        obj.testEffect.stop();
-                    }.bind(obj), 2000);
+                    // obj.testEffect.play();
+                    // setTimeout(function () {
+                    //     obj.testEffect.stop();
+                    // }.bind(obj), 2000);
                     obj.boxUp = boxStay
                     obj.countUp = 10
                 }
@@ -184,6 +184,10 @@ export class handleMouseDown{
             obj.lastColor = Config[obj.colorI][`colorStep${obj.step + 2}`]
             obj.listColor = calculateColor.smoothChangingcolor( obj.firstColor,obj.lastColor)
             obj.index = 0 
+           
         }
+        // box2.setUniform();
+        // boxStay.setUniform();
+        // boxFall.setUniform();
     }   
 }

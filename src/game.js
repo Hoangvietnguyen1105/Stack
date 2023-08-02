@@ -41,7 +41,6 @@ export class Game {
             Loader.loadImages(this.app)
                 .then((assets) => {
                     Loader.createCanvasFont("Arial", 106, "bold");
-
                     console.log("Loading complete");
                     // Tiếp tục công việc sau khi tải hình ảnh thành công
                     this.load();

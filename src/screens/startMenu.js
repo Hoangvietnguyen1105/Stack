@@ -73,11 +73,11 @@ export class startMenu extends Entity {
         this.textDropShadow.addComponent("element", {
             pivot: new pc.Vec2(0.5, 0.5),
             anchor: new pc.Vec4(0.5, 1.2, 0.5, 0.5),
-            fontAsset:  Loader.getAssetByKey('CanvasFont'),
+            fontAsset:  Loader.getAssetByKey('font'),
             fontSize: 150,
             text: this.point,
-            shadowColor: new pc.Color(1, 0, 0),
-            shadowOffset: new pc.Vec2(0.25, -0.25),
+            // shadowColor: new pc.Color(1, 0, 0),
+            // shadowOffset: new pc.Vec2(0.25, -0.25),
             type: pc.ELEMENTTYPE_TEXT,
         });
         // this.textDropShadow.setLocalPosition(0, 350, 0)

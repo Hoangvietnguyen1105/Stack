@@ -6,7 +6,7 @@ import { Camera } from "../object/Camera.js";
 import { Config } from "../gameConfig.js";
 import { Plane } from "../object/plane.js";
 import { Plane2 } from "../object/plane2.js";
-import { TestEffect } from "../object/effect/testEffect.js";
+import { testEffect } from "../object/effect/testEffect.js";
 import { Audio } from "../object/audio.js";
 
 import { beginMenu } from "../screens/beginMenu.js";
@@ -19,7 +19,7 @@ import { fog } from "../object/effect/fog.js";
 export class PlayScene extends Scene {
     constructor() {
         super('PlayScene');
-        this.i = Math.floor(Math.random() * 4) + 1;
+        this.i = Math.floor(Math.random() * 5) + 1;
         this.colorI = `color${this.i}`
     }
 
@@ -140,8 +140,9 @@ export class PlayScene extends Scene {
     }
 
     _initTestEffect() {
-        this.testEffect = new TestEffect();
+        this.testEffect = new testEffect();
         this.addChild(this.testEffect);
+        this.testEffect.play()
         this.effectMap = new effectMap()
         this.addChild(this.effectMap)
         this.effectMap.play()

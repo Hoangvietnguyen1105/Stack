@@ -10,11 +10,11 @@ export class effectMap extends Entity {
         this.setPosition(-1,1,-1)
 
       }
-    
+      
       _initParticle() {
         this.particleEntity = new Entity();
         this.addChild(this.particleEntity);
-        let texture = Loader.getAssetByKey("perfect").resource;
+        let texture = Loader.getAssetByKey("perfect123").resource;
         let localVelocityGraph = new CurveSet(
           [0,0],
           [0,0],
@@ -43,17 +43,22 @@ export class effectMap extends Entity {
     
         let alphaGraph = new Curve([
           0, 1,
-          0.43, 0.4,
-          1, 0,
+          0.2,0.8,
+          0.3,0.7,
+          0.4,0.6,
+          0.5,0.5,
+          0.6,0.4
+
         ])
         let emitterExtends =  new pc.Vec3(1,5,1)
         let emitterExtendsInner =  new pc.Vec3(0,0,0)
-
+        const rotCurve = new pc.Curve([0, 100]);
+        const rotCurve2 = new pc.Curve([0, -100]);
         
 
         this.particleEntity.addComponent("particlesystem", {
           autoPlay: true,
-          numParticles: 50,
+          numParticles: 70,
           lifetime: 20,
           rate: 0.1,
           rate2: 0.1,
@@ -75,9 +80,13 @@ export class effectMap extends Entity {
           velocityGraph: velocityGraph,
           velocityGraph2: velocityGraph2,
           scaleGraph:scaleGraph,
+          rotationSpeedGraph: rotCurve,
+          rotationSpeedGraph2: rotCurve2,
           localVelocityGraph:localVelocityGraph,
+          colorMap:texture,
+          alphaGraph:alphaGraph
         });
-        this.particleEntity.setLocalScale(0.2, 0.2, 0.2);
+        this.particleEntity.setLocalScale(0.15, 0.15, 0.15);
       }
     
       play() {

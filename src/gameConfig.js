@@ -1,7 +1,7 @@
 export const Config = {
     box: {
         "speed": 0.4,
-        "speedup": 0.004,
+        "speedup": 0.005,
         "scaleX": 0.25,
         "scaleY": 0.035,
         "scaleZ": 0.25
@@ -54,6 +54,18 @@ export const Config = {
         "backGroundColor2":[92, 19, 97,184, 145, 186],
         "backGroundColor3":[222, 122, 129,186, 13, 25],
         "backGroundColor4":[13, 186, 180,4, 77, 74],
+    },
+    color5: {
+        "firstColor": '#42f563',
+        "colorStep1":[0, 247, 255],
+        "colorStep2":[0, 153, 255],
+        "colorStep3":[0, 110, 255],
+        "colorStep4":[255, 0, 242],
+        "colorStep5":[245, 162, 241], 
+        "backGroundColor1":[87, 133, 138,79, 85, 130],
+        "backGroundColor2":[105, 60, 150,141, 54, 143],
+        "backGroundColor3":[168, 54, 105,173, 26, 41],
+        "backGroundColor4":[184, 62, 71,4, 77, 74],
     }
 
 }
